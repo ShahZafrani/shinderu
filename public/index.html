@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Omae Wa Mo Shinderu">
+  <title>Shinderu</title>
+
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Nani">
+  <meta name="theme-color" content="#f9a6a6">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Nani">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#f9a6a6">
+
+  <link rel="stylesheet" href="styles/main.css">
+
+</head>
+<body>
+
+<!-- Import and configure the Firebase SDK -->
+<!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+<!-- If you do not want to serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+<script src="/__/firebase/7.2.3/firebase-app.js"></script>
+<script src="/__/firebase/7.2.3/firebase-auth.js"></script>
+<script src="/__/firebase/7.2.3/firebase-storage.js"></script>
+<script src="/__/firebase/7.2.3/firebase-messaging.js"></script>
+<script src="/__/firebase/7.2.3/firebase-firestore.js"></script>
+<script src="/__/firebase/7.2.3/firebase-performance.js"></script>
+<script src="/__/firebase/init.js"></script>
+
+<!-- mithriljs cdn -->
+<script src="https://unpkg.com/mithril/mithril.js"></script>
+
+<!-- app code  -->
+<script src="scripts/main.js"></script>
+</body>
+</html>
