@@ -79,13 +79,18 @@ var Board = {
   oninit: function(vnode){
     Board.loadGame(vnode.attrs.gameId);
   },
+  gameRef: null,
   loadGame: function(gameId) {
     var query = firebase.firestore()
     .doc('games/' + gameId).onSnapshot(function(doc) {
-      console.log(doc.data());
+      console.log(doc);
       Board.currentGame = doc.data();
+      Board.gameRef = doc.ref;
       m.redraw();
     });
+  },
+  inputMove: function(moveText){
+    Board.gameRef.collection('moves').add({"move": moveText, timestamp: +new Date()});
   },
   view: function(vnode) {
     return m('div.float-right', 

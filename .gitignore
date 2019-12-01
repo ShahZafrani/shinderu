@@ -1,6 +1,6 @@
 # other
 .vscode/*
-crd.json
+.crd.json
 # Logs
 logs
 *.log
