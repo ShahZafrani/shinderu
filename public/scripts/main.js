@@ -142,7 +142,13 @@ var GameView = {
   }
 }
 
+var GameLobby = {
+  view: function(vnode) {
+    return m('div', [m(Header), m('h1', 'Join a game!')]);
+  }
+}
+
 m.route(document.body, '/', {
-    '/': GameView,
+    '/': GameLobby,
     '/game/:gameId': GameView
 })
