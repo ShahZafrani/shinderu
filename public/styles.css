@@ -1,0 +1,68 @@
+.row {
+    /* display: inline-grid; */
+  }
+  
+  .tile {
+    padding: 1vh;
+  }
+  .player-red {
+    width: 5vw;
+    height: 5vw;
+    background: coral;
+    border-radius: 50%
+  }  
+  .player-blue {
+    width: 5vw;
+    height: 5vw;
+    background: cornflowerblue;
+    border-radius: 50%
+  }
+  .master-red {
+    width: 5vw;
+    height: 5vw;
+    background: coral;
+    border-radius: 50%;
+    border-style: dashed;
+    border-color: black;
+  }  
+  .master-blue {
+    width: 5vw;
+    height: 5vw;
+    background: cornflowerblue;
+    border-radius: 50%;
+    border-style: dashed;
+    border-color: black;
+  }
+  .user-container {
+      float: left;
+  }
+  .card-display {
+      float: right;
+  }
+  .board {
+    display: inline-table;
+  }
+  
+  table, tr, td {
+    border: 1px solid black;
+    /* border-collapse: collapse; */
+  }
+  td {
+    height: 5vw;
+    width: 5vw;
+    background-color: #c8d5bf;
+  }
+  
+  td:hover{
+    background-color: #ffff99;
+  }
+  
+  
+  
+  body {
+      background-color: #f9a6a6;
+      width: 70%;     /* specify a width! */
+      margin: 0 auto; /* center */
+      text-align: center;
+  }
+  
