@@ -2,9 +2,6 @@
     /* display: inline-grid; */
   }
   
-  .tile {
-    padding: 1vh;
-  }
   .player-red {
     width: 5vw;
     height: 5vw;
@@ -37,10 +34,17 @@
       float: left;
   }
   .card-display {
-      float: right;
+      float: left;
   }
   .board {
     display: inline-table;
+    float: left;
+  }
+  .float-right {
+      float: right;
+  }
+  .float-left {
+      float: left;
   }
   
   table, tr, td {
@@ -48,10 +52,18 @@
     /* border-collapse: collapse; */
   }
   td {
+    padding: 1vh;
     height: 5vw;
     width: 5vw;
     background-color: #c8d5bf;
   }
+  td.tile-red {
+      background-color: red;
+  }
+
+  td.tile-blue {
+    background-color: blue;
+}
   
   td:hover{
     background-color: #ffff99;
