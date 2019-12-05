@@ -40,6 +40,11 @@
     display: inline-table;
     float: left;
   }
+  .board-rotated {
+    display: inline-table;
+    float: left;
+    transform: rotateZ(180deg);
+  }
   .float-right {
       float: right;
   }

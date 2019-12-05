@@ -1,31 +1,21 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /commands/{uid} {
-      allow read, update, delete: if false;
-      allow create : if $uid == request.auth.uid;
-    }
-    match /players/{uid} {
-      allow read: if true;
-      allow create, update, delete : if $uid == request.auth.uid;
-    }
     match /player_states/{uid} {
       allow create, update, delete: if false;
-      allow read : if $uid == request.auth.uid;
+      allow read : if uid == request.auth.uid;
     }
     match /games/{gameId} {
       allow create, update, delete: if false;
       allow read : if true;
 
-        function gameData() {
-            return get(/databases/$(database)/documents/games/$(gameId)).data
-        }
-
-        match /moves/{moveId} {
-            allow read: if true;
-            allow write: if gameData().turn_uid == request.auth.uid;
-        }
-
+      match /player_moves/{uid} {       
+        allow read: if true;
+        allow create, update, delete: if (uid == request.auth.uid) && (gameData().turn_uid == request.auth.uid);
+      }
+      function gameData() {
+          return get(/databases/$(database)/documents/games/$(gameId)).data
+      }
     }
     // TODO: add fcm functionality
     // FCM Tokens:

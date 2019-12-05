@@ -64,13 +64,23 @@ var CardDisplay = {
     if (vnode.attrs.players) {
        return  m('div.card-display', [
         m('h4', 'Cards: '),
-        m('div', 'Red', m('div', vnode.attrs.players.red.hand[0] + ', ' + vnode.attrs.players.red.hand[1])),
-        m('div', 'Table', m('div', vnode.attrs.tableCard)),
-        m('div', 'Blue', m('div', vnode.attrs.players.blue.hand[0] + ', ' + vnode.attrs.players.blue.hand[1]))
+        m('div', 'Red', m('div', [m(CardDetails, { deck: vnode.attrs.deck, card: vnode.attrs.players.red.hand[0]}),m(CardDetails, { deck: vnode.attrs.deck, card: vnode.attrs.players.red.hand[1]})])),
+        m('div', 'Table', m('div', m(CardDetails, { deck: vnode.attrs.deck, card:vnode.attrs.tableCard}))),
+        m('div', 'Blue', m('div', [m(CardDetails, { deck: vnode.attrs.deck, card: vnode.attrs.players.blue.hand[0]}), ,m(CardDetails, { deck: vnode.attrs.deck, card: vnode.attrs.players.blue.hand[1]})]))
       ]);
     } else {
       return m('h4.card-display', 'shuffling cards...');
     }
+  }
+}
+
+var CardDetails = {
+  view: function(vnode) {
+    let details = [];
+    Object.entries(vnode.attrs.deck[vnode.attrs.card].options).map(entry => {
+      details.push(m('p', entry[0] + '- x: ' + entry[1].x + ', y:' + entry[1].y ));
+    })
+    return m('p', vnode.attrs.card, details);
   }
 }
 
@@ -89,14 +99,16 @@ var Board = {
       m.redraw();
     });
   },
-  inputMove: function(moveText){
-    Board.gameRef.collection('moves').add({"move": moveText, timestamp: +new Date()});
+  inputMove: function(move){
+    console.log(firebase.auth().currentUser.uid)
+    Board.gameRef.collection('player_moves').doc(firebase.auth().currentUser.uid).set(move, {merge: true});
   },
   view: function(vnode) {
     return m('div.float-right', 
       [m(GameStatus, {status: Board.currentGame.gameStatus}),
       m(BoardGrid, {boardState : Board.currentGame.board}),
-      m(CardDisplay, {players: Board.currentGame.players, tableCard: Board.currentGame.tableCard})]);
+      m(CardDisplay, {deck: Board.currentGame.deck, players: Board.currentGame.players, tableCard: Board.currentGame.tableCard}),
+      m(MoveInput, {submitMove : this.inputMove, turn_uid: Board.currentGame.turn_uid})]);
   }
 }
 
@@ -106,7 +118,11 @@ var BoardGrid = {
     for (let i = 0; i < letters.length; i++) {
       rows.push(m(Row, {boardState: vnode.attrs.boardState, tiles : [letters[i]+'0', letters[i]+'1', letters[i]+'2', letters[i]+'3', letters[i]+'4']}));
     }
-    return m('table.board', rows);
+    let rotate = '';
+    if((vnode.attrs.boardState) && (vnode.attrs.boardState.players) && (vnode.attrs.boardState.players.red.uid === firebase.auth().currentUser.uid)) {
+      rotate = '-rotated';
+    }
+    return m('table.board' + rotate, rows);
   }
 }
 
@@ -124,7 +140,7 @@ var Row = {
 
 var Tile = {
   view: function(vnode) {
-      let tileClass = (vnode.attrs.tileKey !== 'a2') ? (vnode.attrs.tileKey !== 'e2') ?  '' : '.tile-blue' : '.tile-red';
+      let tileClass = (vnode.attrs.tileKey !== '02') ? (vnode.attrs.tileKey !== '42') ?  '' : '.tile-blue' : '.tile-red';
       if (vnode.attrs.value === '') {
         return m('td' + tileClass,  vnode.attrs.value);
       } else {
@@ -132,6 +148,29 @@ var Tile = {
         let type = vnode.attrs.value[1] === '2' ? 'master-' + color : 'player-' + color;
         return m('td' + tileClass, m('div.' + type))
       }
+  }
+}
+
+var MoveInput = {
+  disableForm: function(vnode){
+    return vnode.attrs.turn_uid !== firebase.auth().currentUser.uid;
+  },
+  view: function(vnode) {
+    return m('form',  { action: '#', onsubmit: e =>{
+      e.preventDefault();
+      let move = {};
+      move.cardChoice = vnode.state.cardChoice;
+      move.cardOption = vnode.state.cardOption;
+      move.gamePiece = vnode.state.gamePiece;
+      move.uid = firebase.auth().currentUser.uid;
+      vnode.attrs.submitMove(move);
+    }}, 
+    [
+      m('input', {type: "text", value: vnode.state.cardChoice, oninput: event => vnode.state.cardChoice = event.target.value}),
+      m('input', {type: "text", value: vnode.state.cardOption, oninput: event => vnode.state.cardOption = event.target.value}),
+      m('input', {type: "text", value: vnode.state.gamePiece, oninput: event => vnode.state.gamePiece = event.target.value}),
+      m("button", {id: "submit", disabled: this.disableForm(vnode), type:"submit"}, "Send")
+    ]);
   }
 }
 
@@ -147,9 +186,55 @@ var GameView = {
   }
 }
 
+var CreateGame = {
+  requestNewGame: function(){
+    m.request({
+        method: "POST",
+        url: "https://us-central1-shinderu-707e1.cloudfunctions.net/createNewGame",
+        body: {id: firebase.auth().currentUser.uid}
+    })
+    .then(function(result) {
+      CreateGame.gameId = result.gameId;
+    })
+    .catch(error => {console.log(error)});
+  },
+  gameId: null,
+  view: function(vnode) {
+    if (!CreateGame.gameId) {
+      return m('button', {onclick: CreateGame.requestNewGame}, 'create new game');
+    } else {
+      m.route.set('/game/' + CreateGame.gameId);
+    }
+  }
+}
+
 var GameLobby = {
   view: function(vnode) {
-    return m('div', [m(Header), m('h1', 'Join a game!')]);
+    return m('div', [m(Header), m(GameList), m(CreateGame)]);
+  }
+}
+
+var GameList = {
+  games : [],
+  oninit: function() {
+    var query = firebase.firestore()
+    .collection('games').orderBy('gameBegin', 'desc').limit(12);
+    query.onSnapshot(function(snapshot) {
+      console.log(snapshot);
+      let tempGames = [];
+      snapshot.docChanges().forEach(function(change) {
+        tempGames.push(change.doc.id);
+      });
+      GameList.games = tempGames;
+      m.redraw();
+    });
+  },
+  view: function(vnode) {
+    let elems = [];
+    GameList.games.map(doc => {
+      elems.push(m('li', m(m.route.Link, {href: '/game/' + doc}, doc)));
+    })
+    return m('h3', 'existing games: ',m('ul',elems));
   }
 }
 
