@@ -1,0 +1,10 @@
+<div class="board">
+    <table>
+            <!-- <app-row [rowKeys]="row" [gameBoard]="gameBoard"></app-row> -->
+            <tr  *ngFor="let row of rowKeys">
+                    <td  *ngFor="let tileKey of row">
+                        {{gameBoard[tileKey]}}
+                    </td>
+            </tr>
+    </table>
+</div>

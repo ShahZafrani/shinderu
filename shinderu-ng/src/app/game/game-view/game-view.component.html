@@ -1,0 +1,15 @@
+<div>
+    <h4>{{gameId}}</h4>
+    <!-- ADD CSS -->
+    <div>
+        {{(game | async)?.turn_uid}}
+    </div>
+    <button (click)="print()">console</button>
+    <app-game-status [gameStatus]="(game | async)?.gameStatus"></app-game-status>
+    <br>
+    <app-game-board [gameBoard]="(game | async)?.board"></app-game-board>
+    <br>
+    <app-game-cards [gameCards]="(game | async)?.deck" [tableCard]="(game | async)?.tableCard" [players]="(game | async)?.players"></app-game-cards>
+    <br>
+    <app-game-moves></app-game-moves>
+</div>

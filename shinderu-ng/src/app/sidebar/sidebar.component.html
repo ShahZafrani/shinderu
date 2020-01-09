@@ -1,0 +1,11 @@
+<div class="left-nav">
+    <p *ngIf="isLoggedIn">{{name}}</p>
+    <p *ngIf="!isLoggedIn">Please Log In</p>
+    <button *ngIf="isLoggedIn">Log Out</button>
+    <button *ngIf="!isLoggedIn">Log In</button>
+    <div class="links">
+        <a routerLink="/" routerLinkActive="active">Landing</a>
+        <br>
+        <a routerLink="/lobby" routerLinkActive="active">Lobby</a>
+    </div>
+</div>
