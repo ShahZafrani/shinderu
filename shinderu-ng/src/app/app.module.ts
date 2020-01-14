@@ -13,13 +13,11 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/firebase-config';
 import { GameViewComponent } from './game/game-view/game-view.component';
-import { GameBoardComponent } from './game/board/game-board/game-board.component';
+import { GameBoardComponent } from './game/game-board/game-board.component';
 import { GameMovesComponent } from './game/game-moves/game-moves.component';
 import { GameCardsComponent } from './game/game-cards/game-cards.component';
 import { GameStatusComponent } from './game/game-status/game-status.component';
 import { GamesService } from './service/games.service';
-import { RowComponent } from './game/board/row/row.component';
-import { TileComponent } from './game/board/tile/tile.component';
 import { AuthService } from './service/auth.service';
 
 @NgModule({
@@ -32,9 +30,7 @@ import { AuthService } from './service/auth.service';
     GameBoardComponent,
     GameMovesComponent,
     GameCardsComponent,
-    GameStatusComponent,
-    RowComponent,
-    TileComponent
+    GameStatusComponent
   ],
   imports: [
     BrowserModule,
