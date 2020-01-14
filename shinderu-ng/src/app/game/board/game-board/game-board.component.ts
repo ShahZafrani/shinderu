@@ -17,11 +17,25 @@ export class GameBoardComponent implements OnInit {
     ['e0','e1', 'e2', 'e3', 'e4'],
   ]
 
+  selectedPrimary: string;
+  selectedSecondary: string;
+
   constructor() { }
 
   ngOnInit() {
   }
 
   @Input() gameBoard : Board;
+
+  updateSelected(tileKey) {
+    if (this.validateSelection(tileKey)) {
+      this.selectedPrimary = tileKey;
+    }
+  }
+
+  validateSelection(tileKey) {
+    // logic here
+    return true;
+  }
 
 }

@@ -17,5 +17,6 @@ export class GameCardsComponent implements OnInit {
   @Input() gameCards : Map<String, Card>;
   @Input() tableCard : String;
   @Input() players : Map<String, Player>;
+  @Input() currentPlayer : String;
 
 }

@@ -1,8 +1,12 @@
 <div class="left-nav">
-    <p *ngIf="isLoggedIn">{{name}}</p>
-    <p *ngIf="!isLoggedIn">Please Log In</p>
-    <button *ngIf="isLoggedIn">Log Out</button>
-    <button *ngIf="!isLoggedIn">Log In</button>
+    <div *ngIf="getUser() as user; else showLogin">
+        <p>Hello {{ user.displayName }}!</p>
+        <button (click)="logout()">Logout</button>
+    </div>
+    <ng-template #showLogin>
+        <p>Please login.</p>
+        <button (click)="login()">Login with Google</button>
+    </ng-template>
     <div class="links">
         <a routerLink="/" routerLinkActive="active">Landing</a>
         <br>

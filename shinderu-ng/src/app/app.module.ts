@@ -20,6 +20,7 @@ import { GameStatusComponent } from './game/game-status/game-status.component';
 import { GamesService } from './service/games.service';
 import { RowComponent } from './game/board/row/row.component';
 import { TileComponent } from './game/board/tile/tile.component';
+import { AuthService } from './service/auth.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { TileComponent } from './game/board/tile/tile.component';
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
   ],
-  providers: [GamesService],
+  providers: [GamesService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

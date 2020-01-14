@@ -18,3 +18,7 @@ table, tr, td {
     float: left;
     transform: rotateZ(180deg);
   }
+
+  .tile-selected {
+    background-color: blueviolet;
+  }

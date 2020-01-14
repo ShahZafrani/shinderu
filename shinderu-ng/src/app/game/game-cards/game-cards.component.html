@@ -1,8 +1,16 @@
 <div>
     <h4>Red Cards</h4>
-    <div>{{players?.red.hand}}</div>
+    <div *ngIf="players?.red?.hand">
+        <button *ngFor="let card of players.red.hand" [disabled]="currentPlayer != players.red.uid">
+            {{card}}
+        </button>
+    </div>
     <h4>Table Card</h4>
-    <div>{{tableCard}}</div>
+    <button disabled>{{tableCard}}</button>
     <h4>Blue Cards</h4>
-    <div>{{players?.blue.hand}}</div>
+    <div *ngIf="players?.blue?.hand">
+        <button *ngFor="let card of players.blue.hand" [disabled]="currentPlayer != players.blue.uid">
+            {{card}}
+        </button>
+    </div>
 </div>
