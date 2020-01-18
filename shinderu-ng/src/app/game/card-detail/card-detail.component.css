@@ -1,0 +1,26 @@
+td {
+    padding: .5vh;
+    height: 1vw;
+    width: 1vw;
+}
+
+td.option {
+    background-color: darkgreen;
+}
+
+.piece {
+    background-color: black;
+}
+
+.plain {
+    background-color: #c8d5bf;
+}
+
+table {
+    display: inline-block;
+}
+
+/* .card-container {
+    border-style: solid;
+    border-color: black;
+} */

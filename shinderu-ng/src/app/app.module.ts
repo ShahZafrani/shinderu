@@ -19,6 +19,7 @@ import { GameCardsComponent } from './game/game-cards/game-cards.component';
 import { GameStatusComponent } from './game/game-status/game-status.component';
 import { GamesService } from './service/games.service';
 import { AuthService } from './service/auth.service';
+import { CardDetailComponent } from './game/card-detail/card-detail.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AuthService } from './service/auth.service';
     GameBoardComponent,
     GameMovesComponent,
     GameCardsComponent,
-    GameStatusComponent
+    GameStatusComponent,
+    CardDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,9 @@
+<div class="card-container">
+    <h4>{{title}}</h4>
+    <table *ngIf="card?.options">
+        <!-- <app-row [rowKeys]="row" [gameBoard]="gameBoard"></app-row> -->
+        <tr  *ngFor="let row of ['2','1','0','-1','-2']">
+                <td *ngFor="let tile of ['-2','-1','0','1','2']" [class]="checkTileStyle(tile, row)" ></td>
+        </tr>
+    </table>
+</div>
