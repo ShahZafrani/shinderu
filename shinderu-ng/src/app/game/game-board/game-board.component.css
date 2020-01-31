@@ -19,6 +19,51 @@ table, tr, td {
     transform: rotateZ(180deg);
   }
 
+  .tile-blue-throne {
+    background-color: cornflowerblue;
+  }
+
+  .tile-red-throne {
+    background-color: lightcoral;
+  }
+
   .tile-selected {
     background-color: blueviolet;
+  }
+
+  .tile-option {
+    background-color: peachpuff;
+  }
+
+  .tile-destination {
+    background-color: orange;
+  }
+
+  .red-dot {
+    height: 100%;
+    width: 100%;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .blue-dot {
+    height: 100%;
+    width: 100%;
+    background-color: blue;
+    color: white;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .blue-senpai {
+    background-color: blue;
+    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+  }
+
+  .red-senpai {
+    background-color: red;
+    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+    transform: rotateZ(180deg);
   }

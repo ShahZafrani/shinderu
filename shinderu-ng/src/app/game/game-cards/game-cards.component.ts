@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Card } from 'src/app/classes/card.model';
 import { Player } from 'src/app/classes/player.model';
 
@@ -9,7 +9,11 @@ import { Player } from 'src/app/classes/player.model';
 })
 export class GameCardsComponent implements OnInit {
 
-  constructor() { }
+  selected = "";
+
+  constructor() {
+    this.cardSelected = new EventEmitter<any>();
+   }
 
   ngOnInit() {
   }
@@ -18,5 +22,15 @@ export class GameCardsComponent implements OnInit {
   @Input() tableCard : String;
   @Input() players : Map<String, Player>;
   @Input() currentPlayer : String;
+
+  @Output() cardSelected: EventEmitter<any>;
+
+  selectCard(color, event) {
+    console.log(color);
+    if (this.players[color].uid === this.currentPlayer) {
+      this.cardSelected.emit(event);
+      this.selected = event;
+    }
+  }
 
 }

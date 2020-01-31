@@ -56,6 +56,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   },
 
   /***/
+  "./node_modules/raw-loader/dist/cjs.js!./src/app/game/card-detail/card-detail.component.html":
+  /*!***************************************************************************************************!*\
+    !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/game/card-detail/card-detail.component.html ***!
+    \***************************************************************************************************/
+
+  /*! exports provided: default */
+
+  /***/
+  function node_modulesRawLoaderDistCjsJsSrcAppGameCardDetailCardDetailComponentHtml(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony default export */
+
+
+    __webpack_exports__["default"] = "<div class=\"card-container\" (click)=\"onCardSelect($event)\">\n    <h4>{{title}}</h4>\n    <table *ngIf=\"card?.options\">\n        <!-- <app-row [rowKeys]=\"row\" [gameBoard]=\"gameBoard\"></app-row> -->\n        <tr  *ngFor=\"let row of ['2','1','0','-1','-2']\">\n                <td *ngFor=\"let tile of ['-2','-1','0','1','2']\" [class]=\"checkTileStyle(tile, row)\" ></td>\n        </tr>\n    </table>\n</div>";
+    /***/
+  },
+
+  /***/
   "./node_modules/raw-loader/dist/cjs.js!./src/app/game/game-board/game-board.component.html":
   /*!*************************************************************************************************!*\
     !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/game/game-board/game-board.component.html ***!
@@ -71,7 +91,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"board\">\n    <table *ngIf=\"gameBoard?.a0\">\n            <!-- <app-row [rowKeys]=\"row\" [gameBoard]=\"gameBoard\"></app-row> -->\n            <tr  *ngFor=\"let row of rowKeys\">\n                    <td  *ngFor=\"let tileKey of row\" (click)=\"updateSelected(tileKey)\" [class]=\"selectedPrimary === tileKey ? 'tile-selected' : ''\">\n                        {{gameBoard[tileKey]}}\n                    </td>\n            </tr>\n    </table>\n</div>\n";
+    __webpack_exports__["default"] = "<div>\n    <table *ngIf=\"gameBoard?.a0\" [ngClass]=\"player === 'red' ? 'board-rotated' : 'board'\">\n            <!-- <app-row [rowKeys]=\"row\" [gameBoard]=\"gameBoard\"></app-row> -->\n            <tr  *ngFor=\"let row of rowKeys\">\n                    <td  *ngFor=\"let tileKey of row\" (click)=\"updateSelected(tileKey)\" [ngClass]=\"getTileClass(tileKey)\">\n                        <div [ngClass]=\"getIconClass(tileKey)\">{{gameBoard[tileKey]}}</div>\n                    </td>\n            </tr>\n    </table>\n</div>\n";
     /***/
   },
 
@@ -91,7 +111,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div>\n    <h4>Red Cards</h4>\n    <div *ngIf=\"players?.red?.hand\">\n        <button *ngFor=\"let card of players.red.hand\" [disabled]=\"currentPlayer != players.red.uid\">\n            {{card}}\n        </button>\n    </div>\n    <h4>Table Card</h4>\n    <button disabled>{{tableCard}}</button>\n    <h4>Blue Cards</h4>\n    <div *ngIf=\"players?.blue?.hand\">\n        <button *ngFor=\"let card of players.blue.hand\" [disabled]=\"currentPlayer != players.blue.uid\">\n            {{card}}\n        </button>\n    </div>\n</div>";
+    __webpack_exports__["default"] = "<div>\n    <h4>Red Cards</h4>\n    <div *ngIf=\"players?.red?.hand\">\n        <card-detail [class]=\"card === selected ? 'selected' : ''\" (cardClick)=\"selectCard('red', $event)\" *ngFor=\"let card of players.red.hand\"  [title]=\"card\" [card]=\"gameCards[card]\"></card-detail>\n    </div>\n    <h4>Table Card</h4>\n    <!-- <button disabled>{{tableCard}}</button> -->\n    <card-detail *ngIf=\"gameCards\" [title]=\"tableCard\" [card]=\"gameCards[tableCard]\"></card-detail>\n    <h4>Blue Cards</h4>\n    <div *ngIf=\"players?.blue?.hand\">\n        <card-detail [class]=\"card === selected ? 'selected' : ''\" (cardClick)=\"selectCard('blue', $event)\" *ngFor=\"let card of players.blue.hand\"  [title]=\"card\" [card]=\"gameCards[card]\"></card-detail>\n    </div>\n</div>";
     /***/
   },
 
@@ -171,7 +191,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div>\n    <!-- ADD CSS -->\n    <app-game-status [gameStatus]=\"(game | async)?.gameStatus\"></app-game-status>\n    <div *ngIf=\"(game | async)?.turn_uid\">\n        Next Turn: {{(game | async)?.turn_uid === (game | async)?.players.red.uid ? \"red\" : \"blue\"}}\n    </div>\n    <br>\n    <app-game-board [gameBoard]=\"(game | async)?.board\"></app-game-board>\n    <br>\n    <app-game-cards [currentPlayer]=\"getCurrentUser()\" [gameCards]=\"(game | async)?.deck\" [tableCard]=\"(game | async)?.tableCard\" [players]=\"(game | async)?.players\"></app-game-cards>\n    <br>\n    <app-game-moves></app-game-moves>\n</div>";
+    __webpack_exports__["default"] = "<div *ngIf=\"game\">\n    <!-- ADD CSS -->\n    <app-game-status [gameStatus]=\"game?.gameStatus\"></app-game-status>\n    <div *ngIf=\"!game?.victor\">\n        <div *ngIf=\"getCurrentUser() === game?.turn_uid\">\n            <p>It's your turn!</p>\n            <div *ngIf=\"selectedCard && selectedPiece && selectedFrom && selectedDest\">\n                <p>{{\"Use \" +  selectedCard + \" on \" + selectedPiece + \" to move from \" + selectedFrom + \" to \" + selectedDest}} </p>\n                <button (click)=\"makeMove()\">Confirm Move</button>\n            </div>\n        </div>\n        <div *ngIf=\"getCurrentUser() !== game?.turn_uid\">\n            <p>It's your opponent's turn!</p>\n        </div>\n    </div>\n    <br>\n    <app-game-board [player]=\"getPlayer()\" [gameCards]=\"game?.deck\"  [cardChoice]=\"selectedCard ? selectedCard : undefined\" (selectPiece)=\"updateSelectedPiece($event)\" (selectFrom)=\"updateSelectedFrom($event)\" (selectDest)=\"updateSelectedDest($event)\" (selectOption)=\"updateSelectedOption($event)\" [gameBoard]=\"game?.board\"></app-game-board>\n    <br>\n    <app-game-cards (cardSelected)=\"updateSelectedCard($event)\" [currentPlayer]=\"getCurrentUser()\" [gameCards]=\"game?.deck\" [tableCard]=\"game?.tableCard\" [players]=\"game?.players\"></app-game-cards>\n    <br>\n    <app-game-moves></app-game-moves>\n</div>";
     /***/
   },
 
@@ -211,7 +231,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"left-nav\">\n    <div *ngIf=\"getUser() as user; else showLogin\">\n        <p>Hello {{ user.displayName }}!</p>\n        <button (click)=\"logout()\">Logout</button>\n    </div>\n    <ng-template #showLogin>\n        <p>Please login.</p>\n        <button (click)=\"login()\">Login with Google</button>\n    </ng-template>\n    <div class=\"links\">\n        <a routerLink=\"/\" routerLinkActive=\"active\">Landing</a>\n        <br>\n        <a routerLink=\"/lobby\" routerLinkActive=\"active\">Lobby</a>\n    </div>\n</div>\n";
+    __webpack_exports__["default"] = "<div class=\"left-nav\">\n    <div *ngIf=\"getUser() as user; else showLogin\">\n        <div *ngIf=\"user.displayName; else showLogin\">\n            <p>Hello {{ user.displayName }}!</p>\n            <button (click)=\"logout()\">Logout</button>\n        </div>\n    </div>\n    <ng-template #showLogin>\n        <p>Please login.</p>\n        <button (click)=\"login()\">Login with Google</button>\n    </ng-template>\n    <div class=\"links\">\n        <a routerLink=\"/\" routerLinkActive=\"active\">Landing</a>\n        <br>\n        <a routerLink=\"/lobby\" routerLinkActive=\"active\">Lobby</a>\n    </div>\n</div>\n";
     /***/
   },
 
@@ -1055,17 +1075,161 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _service_auth_service__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(
     /*! ./service/auth.service */
     "./src/app/service/auth.service.ts");
+    /* harmony import */
+
+
+    var _game_card_detail_card_detail_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(
+    /*! ./game/card-detail/card-detail.component */
+    "./src/app/game/card-detail/card-detail.component.ts");
 
     var AppModule = function AppModule() {
       _classCallCheck(this, AppModule);
     };
 
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
-      declarations: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"], _sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_4__["SidebarComponent"], _landing_landing_component__WEBPACK_IMPORTED_MODULE_6__["LandingComponent"], _game_game_lobby_game_lobby_component__WEBPACK_IMPORTED_MODULE_7__["GameLobbyComponent"], _game_game_view_game_view_component__WEBPACK_IMPORTED_MODULE_12__["GameViewComponent"], _game_game_board_game_board_component__WEBPACK_IMPORTED_MODULE_13__["GameBoardComponent"], _game_game_moves_game_moves_component__WEBPACK_IMPORTED_MODULE_14__["GameMovesComponent"], _game_game_cards_game_cards_component__WEBPACK_IMPORTED_MODULE_15__["GameCardsComponent"], _game_game_status_game_status_component__WEBPACK_IMPORTED_MODULE_16__["GameStatusComponent"]],
+      declarations: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"], _sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_4__["SidebarComponent"], _landing_landing_component__WEBPACK_IMPORTED_MODULE_6__["LandingComponent"], _game_game_lobby_game_lobby_component__WEBPACK_IMPORTED_MODULE_7__["GameLobbyComponent"], _game_game_view_game_view_component__WEBPACK_IMPORTED_MODULE_12__["GameViewComponent"], _game_game_board_game_board_component__WEBPACK_IMPORTED_MODULE_13__["GameBoardComponent"], _game_game_moves_game_moves_component__WEBPACK_IMPORTED_MODULE_14__["GameMovesComponent"], _game_game_cards_game_cards_component__WEBPACK_IMPORTED_MODULE_15__["GameCardsComponent"], _game_game_status_game_status_component__WEBPACK_IMPORTED_MODULE_16__["GameStatusComponent"], _game_card_detail_card_detail_component__WEBPACK_IMPORTED_MODULE_19__["CardDetailComponent"]],
       imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"], _angular_fire__WEBPACK_IMPORTED_MODULE_8__["AngularFireModule"].initializeApp(_environments_firebase_config__WEBPACK_IMPORTED_MODULE_11__["environment"].firebase), _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_9__["AngularFirestoreModule"], _angular_fire_auth__WEBPACK_IMPORTED_MODULE_10__["AngularFireAuthModule"]],
       providers: [_service_games_service__WEBPACK_IMPORTED_MODULE_17__["GamesService"], _service_auth_service__WEBPACK_IMPORTED_MODULE_18__["AuthService"]],
       bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
     })], AppModule);
+    /***/
+  },
+
+  /***/
+  "./src/app/classes/move.model.ts":
+  /*!***************************************!*\
+    !*** ./src/app/classes/move.model.ts ***!
+    \***************************************/
+
+  /*! exports provided: Move */
+
+  /***/
+  function srcAppClassesMoveModelTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "Move", function () {
+      return Move;
+    });
+    /* harmony import */
+
+
+    var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+    /*! tslib */
+    "./node_modules/tslib/tslib.es6.js");
+
+    var Move = function Move() {
+      _classCallCheck(this, Move);
+    };
+    /***/
+
+  },
+
+  /***/
+  "./src/app/game/card-detail/card-detail.component.css":
+  /*!************************************************************!*\
+    !*** ./src/app/game/card-detail/card-detail.component.css ***!
+    \************************************************************/
+
+  /*! exports provided: default */
+
+  /***/
+  function srcAppGameCardDetailCardDetailComponentCss(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony default export */
+
+
+    __webpack_exports__["default"] = "td {\n    padding: .5vh;\n    height: 1vw;\n    width: 1vw;\n}\n\ntd.option {\n    background-color: darkgreen;\n}\n\n.piece {\n    background-color: black;\n}\n\n.plain {\n    background-color: #c8d5bf;\n}\n\ntable {\n    display: inline-block;\n}\n\n/* .card-container {\n    border-style: solid;\n    border-color: black;\n} */\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9jYXJkLWRldGFpbC9jYXJkLWRldGFpbC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksYUFBYTtJQUNiLFdBQVc7SUFDWCxVQUFVO0FBQ2Q7O0FBRUE7SUFDSSwyQkFBMkI7QUFDL0I7O0FBRUE7SUFDSSx1QkFBdUI7QUFDM0I7O0FBRUE7SUFDSSx5QkFBeUI7QUFDN0I7O0FBRUE7SUFDSSxxQkFBcUI7QUFDekI7O0FBRUE7OztHQUdHIiwiZmlsZSI6InNyYy9hcHAvZ2FtZS9jYXJkLWRldGFpbC9jYXJkLWRldGFpbC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsidGQge1xuICAgIHBhZGRpbmc6IC41dmg7XG4gICAgaGVpZ2h0OiAxdnc7XG4gICAgd2lkdGg6IDF2dztcbn1cblxudGQub3B0aW9uIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiBkYXJrZ3JlZW47XG59XG5cbi5waWVjZSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogYmxhY2s7XG59XG5cbi5wbGFpbiB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2M4ZDViZjtcbn1cblxudGFibGUge1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbn1cblxuLyogLmNhcmQtY29udGFpbmVyIHtcbiAgICBib3JkZXItc3R5bGU6IHNvbGlkO1xuICAgIGJvcmRlci1jb2xvcjogYmxhY2s7XG59ICovIl19 */";
+    /***/
+  },
+
+  /***/
+  "./src/app/game/card-detail/card-detail.component.ts":
+  /*!***********************************************************!*\
+    !*** ./src/app/game/card-detail/card-detail.component.ts ***!
+    \***********************************************************/
+
+  /*! exports provided: CardDetailComponent */
+
+  /***/
+  function srcAppGameCardDetailCardDetailComponentTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "CardDetailComponent", function () {
+      return CardDetailComponent;
+    });
+    /* harmony import */
+
+
+    var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+    /*! tslib */
+    "./node_modules/tslib/tslib.es6.js");
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! @angular/core */
+    "./node_modules/@angular/core/fesm2015/core.js");
+
+    var CardDetailComponent =
+    /*#__PURE__*/
+    function () {
+      function CardDetailComponent() {
+        _classCallCheck(this, CardDetailComponent);
+
+        this.cardClick = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+      }
+
+      _createClass(CardDetailComponent, [{
+        key: "ngOnInit",
+        value: function ngOnInit() {}
+      }, {
+        key: "checkTileStyle",
+        value: function checkTileStyle(tile, row) {
+          // console.log(tile, row)
+          var color = "plain";
+          Object.values(this.card.options).forEach(function (element) {
+            // console.log(element)
+            if (tile == element.x && row == element.y) {
+              color = "option";
+            } else if (tile == "0" && row == "0") {
+              color = "piece";
+            }
+          });
+          return color;
+        }
+      }, {
+        key: "onCardSelect",
+        value: function onCardSelect(event) {
+          //todo: fix the card object type
+          this.cardClick.emit(this.title);
+        }
+      }]);
+
+      return CardDetailComponent;
+    }();
+
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], CardDetailComponent.prototype, "title", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], CardDetailComponent.prototype, "card", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()], CardDetailComponent.prototype, "cardClick", void 0);
+    CardDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+      selector: 'card-detail',
+      template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
+      /*! raw-loader!./card-detail.component.html */
+      "./node_modules/raw-loader/dist/cjs.js!./src/app/game/card-detail/card-detail.component.html")).default,
+      styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
+      /*! ./card-detail.component.css */
+      "./src/app/game/card-detail/card-detail.component.css")).default]
+    })], CardDetailComponent);
     /***/
   },
 
@@ -1085,7 +1249,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "table, tr, td {\n    border: 1px solid black;\n    /* border-collapse: collapse; */\n  }\n\n  td {\n    padding: 1vh;\n    height: 5vw;\n    width: 5vw;\n    background-color: #c8d5bf;\n  }\n\n  .board {\n    display: inline-table;\n    float: left;\n  }\n\n  .board-rotated {\n    display: inline-table;\n    float: left;\n    transform: rotateZ(180deg);\n  }\n\n  .tile-selected {\n    background-color: blueviolet;\n  }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLWJvYXJkL2dhbWUtYm9hcmQuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLHVCQUF1QjtJQUN2QiwrQkFBK0I7RUFDakM7O0VBRUE7SUFDRSxZQUFZO0lBQ1osV0FBVztJQUNYLFVBQVU7SUFDVix5QkFBeUI7RUFDM0I7O0VBQ0E7SUFDRSxxQkFBcUI7SUFDckIsV0FBVztFQUNiOztFQUNBO0lBQ0UscUJBQXFCO0lBQ3JCLFdBQVc7SUFDWCwwQkFBMEI7RUFDNUI7O0VBRUE7SUFDRSw0QkFBNEI7RUFDOUIiLCJmaWxlIjoic3JjL2FwcC9nYW1lL2dhbWUtYm9hcmQvZ2FtZS1ib2FyZC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsidGFibGUsIHRyLCB0ZCB7XG4gICAgYm9yZGVyOiAxcHggc29saWQgYmxhY2s7XG4gICAgLyogYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsgKi9cbiAgfVxuXG4gIHRkIHtcbiAgICBwYWRkaW5nOiAxdmg7XG4gICAgaGVpZ2h0OiA1dnc7XG4gICAgd2lkdGg6IDV2dztcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjYzhkNWJmO1xuICB9XG4gIC5ib2FyZCB7XG4gICAgZGlzcGxheTogaW5saW5lLXRhYmxlO1xuICAgIGZsb2F0OiBsZWZ0O1xuICB9XG4gIC5ib2FyZC1yb3RhdGVkIHtcbiAgICBkaXNwbGF5OiBpbmxpbmUtdGFibGU7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgdHJhbnNmb3JtOiByb3RhdGVaKDE4MGRlZyk7XG4gIH1cblxuICAudGlsZS1zZWxlY3RlZCB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogYmx1ZXZpb2xldDtcbiAgfSJdfQ== */";
+    __webpack_exports__["default"] = "table, tr, td {\n    border: 1px solid black;\n    /* border-collapse: collapse; */\n  }\n\n  td {\n    padding: 1vh;\n    height: 5vw;\n    width: 5vw;\n    background-color: #c8d5bf;\n  }\n\n  .board {\n    display: inline-table;\n    float: left;\n  }\n\n  .board-rotated {\n    display: inline-table;\n    float: left;\n    transform: rotateZ(180deg);\n  }\n\n  .tile-blue-throne {\n    background-color: cornflowerblue;\n  }\n\n  .tile-red-throne {\n    background-color: lightcoral;\n  }\n\n  .tile-selected {\n    background-color: blueviolet;\n  }\n\n  .tile-option {\n    background-color: peachpuff;\n  }\n\n  .tile-destination {\n    background-color: orange;\n  }\n\n  .red-dot {\n    height: 100%;\n    width: 100%;\n    background-color: red;\n    color: white;\n    border-radius: 50%;\n    display: inline-block;\n  }\n\n  .blue-dot {\n    height: 100%;\n    width: 100%;\n    background-color: blue;\n    color: white;\n    border-radius: 50%;\n    display: inline-block;\n  }\n\n  .blue-senpai {\n    background-color: blue;\n    -webkit-clip-path: polygon(50% 0, 0 100%, 100% 100%);\n            clip-path: polygon(50% 0, 0 100%, 100% 100%);\n  }\n\n  .red-senpai {\n    background-color: red;\n    -webkit-clip-path: polygon(50% 0, 0 100%, 100% 100%);\n            clip-path: polygon(50% 0, 0 100%, 100% 100%);\n    transform: rotateZ(180deg);\n  }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLWJvYXJkL2dhbWUtYm9hcmQuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLHVCQUF1QjtJQUN2QiwrQkFBK0I7RUFDakM7O0VBRUE7SUFDRSxZQUFZO0lBQ1osV0FBVztJQUNYLFVBQVU7SUFDVix5QkFBeUI7RUFDM0I7O0VBQ0E7SUFDRSxxQkFBcUI7SUFDckIsV0FBVztFQUNiOztFQUNBO0lBQ0UscUJBQXFCO0lBQ3JCLFdBQVc7SUFDWCwwQkFBMEI7RUFDNUI7O0VBRUE7SUFDRSxnQ0FBZ0M7RUFDbEM7O0VBRUE7SUFDRSw0QkFBNEI7RUFDOUI7O0VBRUE7SUFDRSw0QkFBNEI7RUFDOUI7O0VBRUE7SUFDRSwyQkFBMkI7RUFDN0I7O0VBRUE7SUFDRSx3QkFBd0I7RUFDMUI7O0VBRUE7SUFDRSxZQUFZO0lBQ1osV0FBVztJQUNYLHFCQUFxQjtJQUNyQixZQUFZO0lBQ1osa0JBQWtCO0lBQ2xCLHFCQUFxQjtFQUN2Qjs7RUFFQTtJQUNFLFlBQVk7SUFDWixXQUFXO0lBQ1gsc0JBQXNCO0lBQ3RCLFlBQVk7SUFDWixrQkFBa0I7SUFDbEIscUJBQXFCO0VBQ3ZCOztFQUVBO0lBQ0Usc0JBQXNCO0lBQ3RCLG9EQUE0QztZQUE1Qyw0Q0FBNEM7RUFDOUM7O0VBRUE7SUFDRSxxQkFBcUI7SUFDckIsb0RBQTRDO1lBQTVDLDRDQUE0QztJQUM1QywwQkFBMEI7RUFDNUIiLCJmaWxlIjoic3JjL2FwcC9nYW1lL2dhbWUtYm9hcmQvZ2FtZS1ib2FyZC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsidGFibGUsIHRyLCB0ZCB7XG4gICAgYm9yZGVyOiAxcHggc29saWQgYmxhY2s7XG4gICAgLyogYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsgKi9cbiAgfVxuXG4gIHRkIHtcbiAgICBwYWRkaW5nOiAxdmg7XG4gICAgaGVpZ2h0OiA1dnc7XG4gICAgd2lkdGg6IDV2dztcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjYzhkNWJmO1xuICB9XG4gIC5ib2FyZCB7XG4gICAgZGlzcGxheTogaW5saW5lLXRhYmxlO1xuICAgIGZsb2F0OiBsZWZ0O1xuICB9XG4gIC5ib2FyZC1yb3RhdGVkIHtcbiAgICBkaXNwbGF5OiBpbmxpbmUtdGFibGU7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgdHJhbnNmb3JtOiByb3RhdGVaKDE4MGRlZyk7XG4gIH1cblxuICAudGlsZS1ibHVlLXRocm9uZSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogY29ybmZsb3dlcmJsdWU7XG4gIH1cblxuICAudGlsZS1yZWQtdGhyb25lIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiBsaWdodGNvcmFsO1xuICB9XG5cbiAgLnRpbGUtc2VsZWN0ZWQge1xuICAgIGJhY2tncm91bmQtY29sb3I6IGJsdWV2aW9sZXQ7XG4gIH1cblxuICAudGlsZS1vcHRpb24ge1xuICAgIGJhY2tncm91bmQtY29sb3I6IHBlYWNocHVmZjtcbiAgfVxuXG4gIC50aWxlLWRlc3RpbmF0aW9uIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiBvcmFuZ2U7XG4gIH1cblxuICAucmVkLWRvdCB7XG4gICAgaGVpZ2h0OiAxMDAlO1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJlZDtcbiAgICBjb2xvcjogd2hpdGU7XG4gICAgYm9yZGVyLXJhZGl1czogNTAlO1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgfVxuXG4gIC5ibHVlLWRvdCB7XG4gICAgaGVpZ2h0OiAxMDAlO1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIGJhY2tncm91bmQtY29sb3I6IGJsdWU7XG4gICAgY29sb3I6IHdoaXRlO1xuICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIH1cblxuICAuYmx1ZS1zZW5wYWkge1xuICAgIGJhY2tncm91bmQtY29sb3I6IGJsdWU7XG4gICAgY2xpcC1wYXRoOiBwb2x5Z29uKDUwJSAwLCAwIDEwMCUsIDEwMCUgMTAwJSk7XG4gIH1cblxuICAucmVkLXNlbnBhaSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmVkO1xuICAgIGNsaXAtcGF0aDogcG9seWdvbig1MCUgMCwgMCAxMDAlLCAxMDAlIDEwMCUpO1xuICAgIHRyYW5zZm9ybTogcm90YXRlWigxODBkZWcpO1xuICB9XG4iXX0= */";
     /***/
   },
 
@@ -1129,23 +1293,180 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         // TODO: refactor this addressing system here... and in cloud functions
         this.rowKeys = [['a0', 'a1', 'a2', 'a3', 'a4'], ['b0', 'b1', 'b2', 'b3', 'b4'], ['c0', 'c1', 'c2', 'c3', 'c4'], ['d0', 'd1', 'd2', 'd3', 'd4'], ['e0', 'e1', 'e2', 'e3', 'e4']];
+        this.letters = ["a", "b", "c", "d", "e"];
+        this.selectPiece = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.selectFrom = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.selectDest = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.selectOption = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.optionSquares = {};
       }
 
       _createClass(GameBoardComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {}
       }, {
+        key: "ngOnChanges",
+        value: function ngOnChanges(changes) {
+          if (changes.cardChoice && this.gameCards) {
+            var card = this.gameCards[changes.cardChoice.currentValue];
+
+            if (this.selectedPrimary) {
+              this.updateOptions(this.selectedPrimary, card.options);
+            }
+          }
+
+          if (changes.gameBoard) {
+            this.optionSquares = {};
+            this.selectedPrimary = undefined;
+            this.selectedSecondary = undefined;
+          }
+        }
+      }, {
+        key: "updateOptions",
+        value: function updateOptions(tileKey, options) {
+          var _this = this;
+
+          this.optionSquares = {};
+          Object.keys(options).forEach(function (element) {
+            // console.log(element)
+            //ignore out of bounds
+            var option = options[element];
+
+            var x = _this.speculativeX(tileKey[0], option.y);
+
+            var y = _this.speculativeY(tileKey[1], option.x);
+
+            if (x !== "invalid" && y !== "invalid") {
+              var key = x + y; // console.log(x + y)
+
+              var landing = _this.gameBoard[key];
+              console.log(landing);
+              console.log("landing, ", key);
+
+              if (landing[0] !== _this.player[0]) {
+                _this.optionSquares[key] = element;
+                console.log(key);
+              }
+            }
+          });
+          console.log(this.optionSquares);
+        }
+      }, {
+        key: "speculativeX",
+        value: function speculativeX(fromX, xDiff) {
+          var xi = this.letters.indexOf(fromX);
+          xDiff *= this.player === 'blue' ? -1 : 1;
+          var newXi = xi + parseInt(xDiff);
+
+          if (newXi < 0 || newXi > 4) {
+            return "invalid";
+          }
+
+          return this.letters[newXi];
+        }
+      }, {
+        key: "speculativeY",
+        value: function speculativeY(fromY, yDiff) {
+          yDiff *= this.player === 'red' ? -1 : 1;
+          var toY = parseInt(fromY) + parseInt(yDiff);
+
+          if (toY < 0 || toY > 4) {
+            return "invalid";
+          }
+
+          return toY;
+        }
+      }, {
         key: "updateSelected",
         value: function updateSelected(tileKey) {
           if (this.validateSelection(tileKey)) {
-            this.selectedPrimary = tileKey;
+            if (tileKey != this.selectedPrimary && !this.optionSquares[tileKey]) {
+              if (this.cardChoice) {
+                this.updateOptions(tileKey, this.gameCards[this.cardChoice].options);
+              }
+
+              this.selectedPrimary = tileKey;
+              this.selectPiece.emit(this.gameBoard[tileKey]);
+              this.selectFrom.emit(tileKey);
+              this.selectedSecondary = "";
+              this.selectDest.emit("");
+            } else if (this.optionSquares[tileKey]) {
+              this.selectedSecondary = tileKey;
+              this.selectDest.emit(tileKey);
+              this.selectOption.emit(this.optionSquares[tileKey]);
+            } else {
+              this.selectedPrimary = "";
+              this.selectPiece.emit("");
+              this.selectFrom.emit("");
+              this.optionSquares = {};
+              this.selectedSecondary = "";
+              this.selectDest.emit("");
+            }
           }
         }
       }, {
         key: "validateSelection",
         value: function validateSelection(tileKey) {
           // logic here
-          return true;
+          if (this.gameBoard[tileKey] != "" && this.gameBoard[tileKey][0] === this.player[0]) {
+            return true;
+          }
+
+          if (this.optionSquares[tileKey]) {
+            return true;
+          }
+
+          return false;
+        }
+      }, {
+        key: "getTileClass",
+        value: function getTileClass(tileKey) {
+          if (this.selectedPrimary === tileKey) {
+            return 'tile-selected';
+          }
+
+          if (this.selectedSecondary === tileKey) {
+            return 'tile-destination';
+          } // if (this.cardChoice && this.selectedPrimary) {
+
+
+          if (this.optionSquares[tileKey]) {
+            return 'tile-option';
+          } // }
+
+
+          if (tileKey === 'a2') {
+            return 'tile-red-throne';
+          }
+
+          if (tileKey === 'e2') {
+            return 'tile-blue-throne';
+          }
+
+          return '';
+        }
+      }, {
+        key: "getIconClass",
+        value: function getIconClass(tileKey) {
+          if (this.gameBoard[tileKey]) {
+            var css = "";
+
+            if (this.gameBoard[tileKey][0] === 'r') {
+              css += "red-";
+            } else {
+              css += "blue-";
+            }
+
+            if (this.gameBoard[tileKey][1] === '2') {
+              css += "senpai";
+            } else {
+              css += "dot";
+            }
+
+            return css;
+          }
+
+          return '';
         }
       }]);
 
@@ -1153,6 +1474,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }();
 
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], GameBoardComponent.prototype, "gameBoard", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], GameBoardComponent.prototype, "cardChoice", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], GameBoardComponent.prototype, "gameCards", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], GameBoardComponent.prototype, "player", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()], GameBoardComponent.prototype, "selectPiece", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()], GameBoardComponent.prototype, "selectFrom", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()], GameBoardComponent.prototype, "selectDest", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()], GameBoardComponent.prototype, "selectOption", void 0);
     GameBoardComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
       selector: 'app-game-board',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
@@ -1181,7 +1509,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2dhbWUvZ2FtZS1jYXJkcy9nYW1lLWNhcmRzLmNvbXBvbmVudC5jc3MifQ== */";
+    __webpack_exports__["default"] = ".selected {\n    color: purple;\n    font-size: x-large;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLWNhcmRzL2dhbWUtY2FyZHMuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLGFBQWE7SUFDYixrQkFBa0I7QUFDdEIiLCJmaWxlIjoic3JjL2FwcC9nYW1lL2dhbWUtY2FyZHMvZ2FtZS1jYXJkcy5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnNlbGVjdGVkIHtcbiAgICBjb2xvcjogcHVycGxlO1xuICAgIGZvbnQtc2l6ZTogeC1sYXJnZTtcbn0iXX0= */";
     /***/
   },
 
@@ -1222,11 +1550,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     function () {
       function GameCardsComponent() {
         _classCallCheck(this, GameCardsComponent);
+
+        this.selected = "";
+        this.cardSelected = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
       }
 
       _createClass(GameCardsComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {}
+      }, {
+        key: "selectCard",
+        value: function selectCard(color, event) {
+          console.log(color);
+
+          if (this.players[color].uid === this.currentPlayer) {
+            this.cardSelected.emit(event);
+            this.selected = event;
+          }
+        }
       }]);
 
       return GameCardsComponent;
@@ -1236,6 +1577,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], GameCardsComponent.prototype, "tableCard", void 0);
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], GameCardsComponent.prototype, "players", void 0);
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], GameCardsComponent.prototype, "currentPlayer", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()], GameCardsComponent.prototype, "cardSelected", void 0);
     GameCardsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
       selector: 'app-game-cards',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
@@ -1307,15 +1649,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     "./src/app/service/games.service.ts");
 
     var GameLobbyComponent = function GameLobbyComponent(gamesService) {
-      var _this = this;
+      var _this2 = this;
 
       _classCallCheck(this, GameLobbyComponent);
 
       this.gamesService = gamesService; // this.games = db.collection('games').snapshotChanges();
 
       this.gamesService.getGames().subscribe(function (data) {
-        _this.games = data.map(function (e) {
-          console.log(e.payload.doc.id);
+        _this2.games = data.map(function (e) {
+          // console.log(e.payload.doc.id)
           return {
             id: e.payload.doc.id,
             game: e.payload.doc.data()
@@ -1570,6 +1912,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _service_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
     /*! ../../service/auth.service */
     "./src/app/service/auth.service.ts");
+    /* harmony import */
+
+
+    var src_app_classes_move_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    /*! src/app/classes/move.model */
+    "./src/app/classes/move.model.ts");
 
     var GameViewComponent =
     /*#__PURE__*/
@@ -1585,8 +1933,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(GameViewComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
+          var _this3 = this;
+
           this.gameId = this.route.snapshot.paramMap.get('gameId');
-          this.game = this.gamesService.getGame(this.gameId);
+          this.gameObs = this.gamesService.getGame(this.gameId);
+          this.gameObs.subscribe(function (res) {
+            _this3.game = res;
+          });
+          this.selectedCard = undefined;
+          this.selectedPiece = undefined;
+          this.selectedFrom = undefined;
+          this.selectedDest = undefined;
         }
       }, {
         key: "print",
@@ -1600,15 +1957,53 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }, {
         key: "getPlayer",
-        value: function getPlayer(uid) {
-          console.log(this.authService.getUserUid());
-
-          if (this.authService.getUserUid() != null) {
-            // if (this.game.g)
-            return 'red';
+        value: function getPlayer() {
+          // todo: get the actual player
+          // console.log(this.authService.getUserUid());
+          if (this.game.players && this.authService.getUserUid() != null) {
+            if (this.game.players["red"].uid === this.authService.getUserUid()) {
+              return 'red';
+            } else if (this.game.players["blue"].uid === this.authService.getUserUid()) {
+              return 'blue';
+            }
           }
 
-          return 'blue';
+          return "spectator";
+        }
+      }, {
+        key: "updateSelectedCard",
+        value: function updateSelectedCard(event) {
+          this.selectedCard = event;
+        }
+      }, {
+        key: "updateSelectedPiece",
+        value: function updateSelectedPiece(event) {
+          this.selectedPiece = event;
+        }
+      }, {
+        key: "updateSelectedFrom",
+        value: function updateSelectedFrom(event) {
+          this.selectedFrom = event;
+        }
+      }, {
+        key: "updateSelectedDest",
+        value: function updateSelectedDest(event) {
+          this.selectedDest = event;
+        }
+      }, {
+        key: "updateSelectedOption",
+        value: function updateSelectedOption(event) {
+          this.selectedOption = event;
+        }
+      }, {
+        key: "makeMove",
+        value: function makeMove() {
+          var move = new src_app_classes_move_model__WEBPACK_IMPORTED_MODULE_5__["Move"]();
+          move.cardChoice = this.selectedCard;
+          move.cardOption = this.selectedOption;
+          move.gamePiece = this.selectedPiece;
+          move.uid = this.getCurrentUser();
+          this.gamesService.updatePlayerMove(move, this.gameId);
         }
       }]);
 
@@ -1778,7 +2173,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(AuthService, [{
         key: "login",
         value: function login() {
-          console.log('login called');
+          // console.log('login called');
           this.afAuth.auth.signInWithPopup(new firebase_app__WEBPACK_IMPORTED_MODULE_3__["auth"].GoogleAuthProvider());
         }
       }, {
@@ -1879,7 +2274,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "updatePlayerMove",
         value: function updatePlayerMove(move, gameId) {
-          this.firestore.doc('games/' + gameId + '/player_moves/' + move.uid).update(move);
+          this.firestore.doc('games/' + gameId + '/player_moves/' + move.uid).set(Object.assign({}, move));
         }
       }]);
 
@@ -1974,6 +2369,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "login",
         value: function login() {
+          // TODO: make the display change once the user logs in.
           this.authService.login();
         }
       }, {

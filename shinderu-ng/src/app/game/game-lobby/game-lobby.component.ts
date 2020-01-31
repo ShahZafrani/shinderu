@@ -16,7 +16,7 @@ export class GameLobbyComponent {
     // this.games = db.collection('games').snapshotChanges();
     this.gamesService.getGames().subscribe(data => {
       this.games = data.map(e => {
-        console.log(e.payload.doc.id)
+        // console.log(e.payload.doc.id)
         return {
           id: e.payload.doc.id,
           game: e.payload.doc.data() as Game

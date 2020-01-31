@@ -19,6 +19,7 @@ export class SidebarComponent implements OnInit {
   }
 
   login() {
+    // TODO: make the display change once the user logs in.
     this.authService.login();
   }
 

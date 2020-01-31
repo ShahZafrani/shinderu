@@ -1,4 +1,4 @@
-<div class="card-container">
+<div class="card-container" (click)="onCardSelect($event)">
     <h4>{{title}}</h4>
     <table *ngIf="card?.options">
         <!-- <app-row [rowKeys]="row" [gameBoard]="gameBoard"></app-row> -->

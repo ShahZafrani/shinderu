@@ -10,7 +10,7 @@ export class AuthService {
   constructor(public afAuth: AngularFireAuth) { }
   
   login() {
-    console.log('login called');
+    // console.log('login called');
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
   }
 

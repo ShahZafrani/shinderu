@@ -1,13 +1,22 @@
-<div>
+<div *ngIf="game">
     <!-- ADD CSS -->
-    <app-game-status [gameStatus]="(game | async)?.gameStatus"></app-game-status>
-    <div *ngIf="(game | async)?.turn_uid">
-        Next Turn: {{(game | async)?.turn_uid === (game | async)?.players.red.uid ? "red" : "blue"}}
+    <app-game-status [gameStatus]="game?.gameStatus"></app-game-status>
+    <div *ngIf="!game?.victor">
+        <div *ngIf="getCurrentUser() === game?.turn_uid">
+            <p>It's your turn!</p>
+            <div *ngIf="selectedCard && selectedPiece && selectedFrom && selectedDest">
+                <p>{{"Use " +  selectedCard + " on " + selectedPiece + " to move from " + selectedFrom + " to " + selectedDest}} </p>
+                <button (click)="makeMove()">Confirm Move</button>
+            </div>
+        </div>
+        <div *ngIf="getCurrentUser() !== game?.turn_uid">
+            <p>It's your opponent's turn!</p>
+        </div>
     </div>
     <br>
-    <app-game-board [gameBoard]="(game | async)?.board"></app-game-board>
+    <app-game-board [player]="getPlayer()" [gameCards]="game?.deck"  [cardChoice]="selectedCard ? selectedCard : undefined" (selectPiece)="updateSelectedPiece($event)" (selectFrom)="updateSelectedFrom($event)" (selectDest)="updateSelectedDest($event)" (selectOption)="updateSelectedOption($event)" [gameBoard]="game?.board"></app-game-board>
     <br>
-    <app-game-cards [currentPlayer]="getCurrentUser()" [gameCards]="(game | async)?.deck" [tableCard]="(game | async)?.tableCard" [players]="(game | async)?.players"></app-game-cards>
+    <app-game-cards (cardSelected)="updateSelectedCard($event)" [currentPlayer]="getCurrentUser()" [gameCards]="game?.deck" [tableCard]="game?.tableCard" [players]="game?.players"></app-game-cards>
     <br>
     <app-game-moves></app-game-moves>
 </div>

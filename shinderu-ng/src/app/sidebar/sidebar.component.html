@@ -1,7 +1,9 @@
 <div class="left-nav">
     <div *ngIf="getUser() as user; else showLogin">
-        <p>Hello {{ user.displayName }}!</p>
-        <button (click)="logout()">Logout</button>
+        <div *ngIf="user.displayName; else showLogin">
+            <p>Hello {{ user.displayName }}!</p>
+            <button (click)="logout()">Logout</button>
+        </div>
     </div>
     <ng-template #showLogin>
         <p>Please login.</p>

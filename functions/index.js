@@ -15,7 +15,7 @@ exports.createNewGame = functions.https.onRequest((req, res) => {
   }
   if (req.body.id !== null && req.body.id !== undefined && req.body.id !== '') {
     const newGame = createEmptyGame();
-    newGame.players.red.uid = id;
+    newGame.players.red.uid = req.body.id;
     const addDoc = db.collection('games').add(newGame).then(ref => {
       ref.collection('moves').add({description: 'gameStart', timestamp: admin.firestore.Timestamp.fromDate(new Date())});
       ref.collection('player_moves').doc('gm').set({timestamp: admin.firestore.Timestamp.fromDate(new Date())});
@@ -190,7 +190,7 @@ function isSpaceValid(board, to, playerColor) {
     return to;
   }
   let existingSpace = board[to];
-  if (existingSpace !== '' && existingSpace[0] !== playerColor[0]) {
+  if (existingSpace !== '' && existingSpace[0] === playerColor[0]) {
     return 'invalid space: cannot move onto your own piece';
   }
   return 'valid';

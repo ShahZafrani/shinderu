@@ -1,13 +1,13 @@
 <div>
     <h4>Red Cards</h4>
     <div *ngIf="players?.red?.hand">
-        <card-detail *ngFor="let card of players.red.hand"  [title]="card" [card]="gameCards[card]"></card-detail>
+        <card-detail [class]="card === selected ? 'selected' : ''" (cardClick)="selectCard('red', $event)" *ngFor="let card of players.red.hand"  [title]="card" [card]="gameCards[card]"></card-detail>
     </div>
     <h4>Table Card</h4>
     <!-- <button disabled>{{tableCard}}</button> -->
     <card-detail *ngIf="gameCards" [title]="tableCard" [card]="gameCards[tableCard]"></card-detail>
     <h4>Blue Cards</h4>
     <div *ngIf="players?.blue?.hand">
-        <card-detail *ngFor="let card of players.blue.hand"  [title]="card" [card]="gameCards[card]"></card-detail>
+        <card-detail [class]="card === selected ? 'selected' : ''" (cardClick)="selectCard('blue', $event)" *ngFor="let card of players.blue.hand"  [title]="card" [card]="gameCards[card]"></card-detail>
     </div>
 </div>

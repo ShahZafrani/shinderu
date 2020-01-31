@@ -20,6 +20,6 @@ export class GamesService {
   }
 
   updatePlayerMove(move: Move, gameId: String) {
-    this.firestore.doc('games/' + gameId + '/player_moves/' + move.uid).update(move);
+    this.firestore.doc('games/' + gameId + '/player_moves/' + move.uid).update(Object.assign({}, move));
   }
 }
