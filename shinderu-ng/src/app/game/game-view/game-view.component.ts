@@ -56,8 +56,10 @@ export class GameViewComponent implements OnInit {
     }
     return "spectator"
   }
-  updateSelectedCard(event){
-    this.selectedCard = event;
+  updateSelectedCard(color, event){
+    if (this.getPlayer() === color) {
+      this.selectedCard = event;
+    }
   }
   updateSelectedPiece(event) {
     this.selectedPiece = event;
@@ -71,7 +73,6 @@ export class GameViewComponent implements OnInit {
   updateSelectedOption(event) {
     this.selectedOption = event;
   }
-
   makeMove() {
     let move = new Move();
     move.cardChoice = this.selectedCard;
@@ -80,5 +81,4 @@ export class GameViewComponent implements OnInit {
     move.uid = this.getCurrentUser();
     this.gamesService.updatePlayerMove(move, this.gameId);
   }
-
 }

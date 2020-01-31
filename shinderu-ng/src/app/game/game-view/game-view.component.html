@@ -14,9 +14,19 @@
         </div>
     </div>
     <br>
-    <app-game-board [player]="getPlayer()" [gameCards]="game?.deck"  [cardChoice]="selectedCard ? selectedCard : undefined" (selectPiece)="updateSelectedPiece($event)" (selectFrom)="updateSelectedFrom($event)" (selectDest)="updateSelectedDest($event)" (selectOption)="updateSelectedOption($event)" [gameBoard]="game?.board"></app-game-board>
-    <br>
+    <div style="display:inline-flex">
+        <div [class]="getPlayer() === 'blue' ? 'rotated' : ''" *ngIf="game?.players?.red?.hand">
+            <card-detail [class]="card === selectedCard ? 'selected' : ''" (cardClick)="updateSelectedCard('red', $event)" *ngFor="let card of game.players.red.hand"  [title]="card" [card]="game.deck[card]"></card-detail>
+        </div>
+        <app-game-board [player]="getPlayer()" [gameCards]="game?.deck"  [cardChoice]="selectedCard ? selectedCard : undefined" (selectPiece)="updateSelectedPiece($event)" (selectFrom)="updateSelectedFrom($event)" (selectDest)="updateSelectedDest($event)" (selectOption)="updateSelectedOption($event)" [gameBoard]="game?.board"></app-game-board>
+        <div [class]="getPlayer() === 'red' ? 'rotated' : ''" *ngIf="game?.players?.blue?.hand">
+            <card-detail [class]="card === selectedCard ? 'selected' : ''" (cardClick)="updateSelectedCard('blue', $event)" *ngFor="let card of game.players.blue.hand"  [title]="card" [card]="game.deck[card]"></card-detail>
+        </div>
+    </div>
+    
+    <card-detail *ngIf="game?.tableCard" [title]="game?.tableCard" [card]="game?.deck[game.tableCard]"></card-detail>
+    <!-- <br>
     <app-game-cards (cardSelected)="updateSelectedCard($event)" [currentPlayer]="getCurrentUser()" [gameCards]="game?.deck" [tableCard]="game?.tableCard" [players]="game?.players"></app-game-cards>
-    <br>
-    <app-game-moves></app-game-moves>
+    <br> -->
+    <!-- <app-game-moves></app-game-moves> -->
 </div>

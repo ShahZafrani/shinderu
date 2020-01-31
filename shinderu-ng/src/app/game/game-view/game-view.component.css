@@ -1,0 +1,8 @@
+.selected {
+    color: purple;
+    font-size: x-large;
+}
+
+.rotated {
+    transform: rotateZ(180deg);
+}

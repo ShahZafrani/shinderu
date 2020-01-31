@@ -1,6 +1,7 @@
 table, tr, td {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     /* border-collapse: collapse; */
+    padding: 1vh;
   }
 
   td {
@@ -15,7 +16,7 @@ table, tr, td {
   }
   .board-rotated {
     display: inline-table;
-    float: left;
+    /* float: left; */
     transform: rotateZ(180deg);
   }
 

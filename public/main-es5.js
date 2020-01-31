@@ -91,7 +91,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div>\n    <table *ngIf=\"gameBoard?.a0\" [ngClass]=\"player === 'red' ? 'board-rotated' : 'board'\">\n            <!-- <app-row [rowKeys]=\"row\" [gameBoard]=\"gameBoard\"></app-row> -->\n            <tr  *ngFor=\"let row of rowKeys\">\n                    <td  *ngFor=\"let tileKey of row\" (click)=\"updateSelected(tileKey)\" [ngClass]=\"getTileClass(tileKey)\">\n                        <div [ngClass]=\"getIconClass(tileKey)\">{{gameBoard[tileKey]}}</div>\n                    </td>\n            </tr>\n    </table>\n</div>\n";
+    __webpack_exports__["default"] = "<div>\n    <table *ngIf=\"gameBoard\" [ngClass]=\"player === 'red' ? 'board-rotated' : 'board'\">\n            <!-- <app-row [rowKeys]=\"row\" [gameBoard]=\"gameBoard\"></app-row> -->\n            <tr  *ngFor=\"let row of rowKeys\">\n                    <td  *ngFor=\"let tileKey of row\" (click)=\"updateSelected(tileKey)\" [ngClass]=\"getTileClass(tileKey)\">\n                        <div [ngClass]=\"getIconClass(tileKey)\">{{gameBoard[tileKey]}}</div>\n                    </td>\n            </tr>\n    </table>\n</div>\n";
     /***/
   },
 
@@ -2274,7 +2274,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "updatePlayerMove",
         value: function updatePlayerMove(move, gameId) {
-          this.firestore.doc('games/' + gameId + '/player_moves/' + move.uid).set(Object.assign({}, move));
+          this.firestore.doc('games/' + gameId + '/player_moves/' + move.uid).update(Object.assign({}, move));
         }
       }]);
 

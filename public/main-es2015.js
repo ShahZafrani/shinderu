@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\n    <table *ngIf=\"gameBoard?.a0\" [ngClass]=\"player === 'red' ? 'board-rotated' : 'board'\">\n            <!-- <app-row [rowKeys]=\"row\" [gameBoard]=\"gameBoard\"></app-row> -->\n            <tr  *ngFor=\"let row of rowKeys\">\n                    <td  *ngFor=\"let tileKey of row\" (click)=\"updateSelected(tileKey)\" [ngClass]=\"getTileClass(tileKey)\">\n                        <div [ngClass]=\"getIconClass(tileKey)\">{{gameBoard[tileKey]}}</div>\n                    </td>\n            </tr>\n    </table>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\n    <table *ngIf=\"gameBoard\" [ngClass]=\"player === 'red' ? 'board-rotated' : 'board'\">\n            <!-- <app-row [rowKeys]=\"row\" [gameBoard]=\"gameBoard\"></app-row> -->\n            <tr  *ngFor=\"let row of rowKeys\">\n                    <td  *ngFor=\"let tileKey of row\" (click)=\"updateSelected(tileKey)\" [ngClass]=\"getTileClass(tileKey)\">\n                        <div [ngClass]=\"getIconClass(tileKey)\">{{gameBoard[tileKey]}}</div>\n                    </td>\n            </tr>\n    </table>\n</div>\n");
 
 /***/ }),
 
@@ -1317,7 +1317,7 @@ let GamesService = class GamesService {
         return ref.valueChanges();
     }
     updatePlayerMove(move, gameId) {
-        this.firestore.doc('games/' + gameId + '/player_moves/' + move.uid).set(Object.assign({}, move));
+        this.firestore.doc('games/' + gameId + '/player_moves/' + move.uid).update(Object.assign({}, move));
     }
 };
 GamesService.ctorParameters = () => [

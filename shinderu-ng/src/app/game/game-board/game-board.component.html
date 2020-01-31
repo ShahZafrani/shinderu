@@ -1,5 +1,5 @@
 <div>
-    <table *ngIf="gameBoard?.a0" [ngClass]="player === 'red' ? 'board-rotated' : 'board'">
+    <table *ngIf="gameBoard" [ngClass]="player === 'red' ? 'board-rotated' : 'board'">
             <!-- <app-row [rowKeys]="row" [gameBoard]="gameBoard"></app-row> -->
             <tr  *ngFor="let row of rowKeys">
                     <td  *ngFor="let tileKey of row" (click)="updateSelected(tileKey)" [ngClass]="getTileClass(tileKey)">
