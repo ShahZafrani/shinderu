@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { GamesService } from '../../service/games.service'
 import { Observable } from 'rxjs';
 import { Game } from 'src/app/classes/game.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'game-lobby',
@@ -12,7 +13,7 @@ import { Game } from 'src/app/classes/game.model';
 export class GameLobbyComponent {
 
   public games: any[];
-  constructor(private gamesService: GamesService, ) {
+  constructor(private gamesService: GamesService, private router: Router) {
     // this.games = db.collection('games').snapshotChanges();
     this.gamesService.getGames().subscribe(data => {
       this.games = data.map(e => {
@@ -22,6 +23,12 @@ export class GameLobbyComponent {
           game: e.payload.doc.data() as Game
         }
       })
+    });
+  }
+
+  createNewGame() {
+    this.gamesService.createGame().subscribe(data => {
+      this.router.navigateByUrl(`/game/${data.gameId}`);
     });
   }
 }

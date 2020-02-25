@@ -13,12 +13,13 @@ exports.createNewGame = functions.https.onRequest((req, res) => {
   if (req.method === 'OPTIONS') {
     res.status(200).send();
   }
-  if (req.body.id !== null && req.body.id !== undefined && req.body.id !== '') {
+  if (req.body.id !== null && req.body.id !== undefined && req.body.id !== "") {
     const newGame = createEmptyGame();
     newGame.players.red.uid = req.body.id;
     const addDoc = db.collection('games').add(newGame).then(ref => {
       ref.collection('moves').add({description: 'gameStart', timestamp: admin.firestore.Timestamp.fromDate(new Date())});
       ref.collection('player_moves').doc('gm').set({timestamp: admin.firestore.Timestamp.fromDate(new Date())});
+      ref.collection('player_moves').doc(req.body.id).set({timestamp: admin.firestore.Timestamp.fromDate(new Date())});
       return res.status(201).send({gameId: ref.id});
     }).catch(error => {
       res.status(500).send(error);
@@ -27,6 +28,28 @@ exports.createNewGame = functions.https.onRequest((req, res) => {
     return res.status(400).send(`InvalidID: ${req.body}`);
   }
 
+});
+
+exports.joinExistingGame = functions.https.onRequest((req, res) => {
+    res.set('Access-Control-Allow-Origin', "*");
+    res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    if (req.method === 'OPTIONS') {
+      res.status(200).send();
+    }
+
+    if (req.body.gameId) {
+      const gameDoc = db.collection('games').get(req.body.gameId).then(ref => {
+        ref.collection('player_moves').doc(req.body.id).set({timestamp: admin.firestore.Timestamp.fromDate(new Date())});
+        ref.players.blue.uid = req.body.id;
+        ref.turn_uid = ref.players.red.uid;
+        return res.status(200).send({gameId: ref.id});
+      }).catch(error => {
+        res.status(500).send(error);
+      });
+    } else {
+      return res.status(400).send(`InvalidID: ${req.body}`);
+    }
 });
 
 exports.onMoveUpdate= functions.firestore
@@ -47,7 +70,7 @@ exports.onMoveUpdate= functions.firestore
       const newBoard = game.board;
       let nextTurn = game.players[player].uid;
       if (validity !== "valid") {
-        message = `Player ${player} made an invalid move: ${validity}`;   
+        message = `Player ${player} made an invalid move: ${validity}`;
       } else {
         let from = getFromSpace(newBoard, move.gamePiece);
         let to = getLandingSpace(newBoard, move, player);
@@ -67,7 +90,7 @@ exports.onMoveUpdate= functions.firestore
       return gameRef.set(
         {gameStatus: message,
           board: newBoard,
-          turn_uid: nextTurn, 
+          turn_uid: nextTurn,
           victor: victor,
           tableCard: newTableCard,
           players: newPlayers}
@@ -133,7 +156,7 @@ function getLandingSpace(board, move, playerColor) {
   let newX = speculativeX(fromSpace[0], cardCoords.y, playerColor);
   if (newX === 'invalid') {
     return 'invalid xPos';
-  } 
+  }
   let newY = speculativeY(fromSpace[1], cardCoords.x, playerColor);
   if (newY === 'invalid') {
     return 'invalid yPos';

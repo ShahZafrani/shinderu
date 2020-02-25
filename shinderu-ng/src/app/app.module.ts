@@ -20,6 +20,7 @@ import { GameStatusComponent } from './game/game-status/game-status.component';
 import { GamesService } from './service/games.service';
 import { AuthService } from './service/auth.service';
 import { CardDetailComponent } from './game/card-detail/card-detail.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CardDetailComponent } from './game/card-detail/card-detail.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features

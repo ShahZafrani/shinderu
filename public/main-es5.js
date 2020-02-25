@@ -51,7 +51,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div style=\"text-align:center\">\n  <sidebar></sidebar>\n  <div class=\"float-right\">\n    <router-outlet></router-outlet>\n  </div>\n</div>";
+    __webpack_exports__["default"] = "<div style=\"text-align:center\">\n  <sidebar></sidebar>\n  <div>\n    <router-outlet></router-outlet>\n  </div>\n</div>";
     /***/
   },
 
@@ -131,7 +131,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div>\n    <h3>do I even need this page? Matchmaking seems like a higher priority</h3>\n    <div *ngFor=\"let game of games\">\n        <a routerLink=\"{{'/game/' + game.id}}\" routerLinkActive=\"active\">{{game.id}}</a>\n    </div>\n</div>";
+    __webpack_exports__["default"] = "<div>\n    <h3>do I even need this page? Matchmaking seems like a higher priority</h3>\n    <button (click)=\"createNewGame()\">Create New Game</button>\n    <div *ngFor=\"let game of games\">\n        <a routerLink=\"{{'/game/' + game.id}}\" routerLinkActive=\"active\">{{game.id}}</a>\n    </div>\n</div>\n";
     /***/
   },
 
@@ -191,7 +191,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div *ngIf=\"game\">\n    <!-- ADD CSS -->\n    <app-game-status [gameStatus]=\"game?.gameStatus\"></app-game-status>\n    <div *ngIf=\"!game?.victor\">\n        <div *ngIf=\"getCurrentUser() === game?.turn_uid\">\n            <p>It's your turn!</p>\n            <div *ngIf=\"selectedCard && selectedPiece && selectedFrom && selectedDest\">\n                <p>{{\"Use \" +  selectedCard + \" on \" + selectedPiece + \" to move from \" + selectedFrom + \" to \" + selectedDest}} </p>\n                <button (click)=\"makeMove()\">Confirm Move</button>\n            </div>\n        </div>\n        <div *ngIf=\"getCurrentUser() !== game?.turn_uid\">\n            <p>It's your opponent's turn!</p>\n        </div>\n    </div>\n    <br>\n    <app-game-board [player]=\"getPlayer()\" [gameCards]=\"game?.deck\"  [cardChoice]=\"selectedCard ? selectedCard : undefined\" (selectPiece)=\"updateSelectedPiece($event)\" (selectFrom)=\"updateSelectedFrom($event)\" (selectDest)=\"updateSelectedDest($event)\" (selectOption)=\"updateSelectedOption($event)\" [gameBoard]=\"game?.board\"></app-game-board>\n    <br>\n    <app-game-cards (cardSelected)=\"updateSelectedCard($event)\" [currentPlayer]=\"getCurrentUser()\" [gameCards]=\"game?.deck\" [tableCard]=\"game?.tableCard\" [players]=\"game?.players\"></app-game-cards>\n    <br>\n    <app-game-moves></app-game-moves>\n</div>";
+    __webpack_exports__["default"] = "<div *ngIf=\"game\">\n    <!-- ADD CSS -->\n    <app-game-status [gameStatus]=\"game?.gameStatus\"></app-game-status>\n    <div *ngIf=\"!game?.victor\">\n        <div *ngIf=\"getCurrentUser() === game?.turn_uid\">\n            <p>It's your turn!</p>\n            <div *ngIf=\"selectedCard && selectedPiece && selectedFrom && selectedDest\">\n                <p>{{\"Use \" +  selectedCard + \" on \" + selectedPiece + \" to move from \" + selectedFrom + \" to \" + selectedDest}} </p>\n                <button (click)=\"makeMove()\">Confirm Move</button>\n            </div>\n        </div>\n        <div *ngIf=\"getCurrentUser() !== game?.turn_uid\">\n            <p>It's your opponent's turn!</p>\n        </div>\n    </div>\n    <br>\n    <div style=\"display:inline-flex\">\n        <div [class]=\"getPlayer() === 'blue' ? 'rotated' : ''\" *ngIf=\"game?.players?.red?.hand\">\n            <card-detail [class]=\"card === selectedCard ? 'selected' : ''\" (cardClick)=\"updateSelectedCard('red', $event)\" *ngFor=\"let card of game.players.red.hand\"  [title]=\"card\" [card]=\"game.deck[card]\"></card-detail>\n        </div>\n        <app-game-board [player]=\"getPlayer()\" [gameCards]=\"game?.deck\"  [cardChoice]=\"selectedCard ? selectedCard : undefined\" (selectPiece)=\"updateSelectedPiece($event)\" (selectFrom)=\"updateSelectedFrom($event)\" (selectDest)=\"updateSelectedDest($event)\" (selectOption)=\"updateSelectedOption($event)\" [gameBoard]=\"game?.board\"></app-game-board>\n        <div [class]=\"getPlayer() === 'red' ? 'rotated' : ''\" *ngIf=\"game?.players?.blue?.hand\">\n            <card-detail [class]=\"card === selectedCard ? 'selected' : ''\" (cardClick)=\"updateSelectedCard('blue', $event)\" *ngFor=\"let card of game.players.blue.hand\"  [title]=\"card\" [card]=\"game.deck[card]\"></card-detail>\n        </div>\n    </div>\n    \n    <card-detail *ngIf=\"game?.tableCard\" [title]=\"game?.tableCard\" [card]=\"game?.deck[game.tableCard]\"></card-detail>\n    <!-- <br>\n    <app-game-cards (cardSelected)=\"updateSelectedCard($event)\" [currentPlayer]=\"getCurrentUser()\" [gameCards]=\"game?.deck\" [tableCard]=\"game?.tableCard\" [players]=\"game?.players\"></app-game-cards>\n    <br> -->\n    <!-- <app-game-moves></app-game-moves> -->\n</div>";
     /***/
   },
 
@@ -1081,6 +1081,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _game_card_detail_card_detail_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(
     /*! ./game/card-detail/card-detail.component */
     "./src/app/game/card-detail/card-detail.component.ts");
+    /* harmony import */
+
+
+    var _angular_common_http__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(
+    /*! @angular/common/http */
+    "./node_modules/@angular/common/fesm2015/http.js");
 
     var AppModule = function AppModule() {
       _classCallCheck(this, AppModule);
@@ -1088,7 +1094,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
       declarations: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"], _sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_4__["SidebarComponent"], _landing_landing_component__WEBPACK_IMPORTED_MODULE_6__["LandingComponent"], _game_game_lobby_game_lobby_component__WEBPACK_IMPORTED_MODULE_7__["GameLobbyComponent"], _game_game_view_game_view_component__WEBPACK_IMPORTED_MODULE_12__["GameViewComponent"], _game_game_board_game_board_component__WEBPACK_IMPORTED_MODULE_13__["GameBoardComponent"], _game_game_moves_game_moves_component__WEBPACK_IMPORTED_MODULE_14__["GameMovesComponent"], _game_game_cards_game_cards_component__WEBPACK_IMPORTED_MODULE_15__["GameCardsComponent"], _game_game_status_game_status_component__WEBPACK_IMPORTED_MODULE_16__["GameStatusComponent"], _game_card_detail_card_detail_component__WEBPACK_IMPORTED_MODULE_19__["CardDetailComponent"]],
-      imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"], _angular_fire__WEBPACK_IMPORTED_MODULE_8__["AngularFireModule"].initializeApp(_environments_firebase_config__WEBPACK_IMPORTED_MODULE_11__["environment"].firebase), _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_9__["AngularFirestoreModule"], _angular_fire_auth__WEBPACK_IMPORTED_MODULE_10__["AngularFireAuthModule"]],
+      imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_20__["HttpClientModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"], _angular_fire__WEBPACK_IMPORTED_MODULE_8__["AngularFireModule"].initializeApp(_environments_firebase_config__WEBPACK_IMPORTED_MODULE_11__["environment"].firebase), _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_9__["AngularFirestoreModule"], _angular_fire_auth__WEBPACK_IMPORTED_MODULE_10__["AngularFireAuthModule"]],
       providers: [_service_games_service__WEBPACK_IMPORTED_MODULE_17__["GamesService"], _service_auth_service__WEBPACK_IMPORTED_MODULE_18__["AuthService"]],
       bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
     })], AppModule);
@@ -1249,7 +1255,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "table, tr, td {\n    border: 1px solid black;\n    /* border-collapse: collapse; */\n  }\n\n  td {\n    padding: 1vh;\n    height: 5vw;\n    width: 5vw;\n    background-color: #c8d5bf;\n  }\n\n  .board {\n    display: inline-table;\n    float: left;\n  }\n\n  .board-rotated {\n    display: inline-table;\n    float: left;\n    transform: rotateZ(180deg);\n  }\n\n  .tile-blue-throne {\n    background-color: cornflowerblue;\n  }\n\n  .tile-red-throne {\n    background-color: lightcoral;\n  }\n\n  .tile-selected {\n    background-color: blueviolet;\n  }\n\n  .tile-option {\n    background-color: peachpuff;\n  }\n\n  .tile-destination {\n    background-color: orange;\n  }\n\n  .red-dot {\n    height: 100%;\n    width: 100%;\n    background-color: red;\n    color: white;\n    border-radius: 50%;\n    display: inline-block;\n  }\n\n  .blue-dot {\n    height: 100%;\n    width: 100%;\n    background-color: blue;\n    color: white;\n    border-radius: 50%;\n    display: inline-block;\n  }\n\n  .blue-senpai {\n    background-color: blue;\n    -webkit-clip-path: polygon(50% 0, 0 100%, 100% 100%);\n            clip-path: polygon(50% 0, 0 100%, 100% 100%);\n  }\n\n  .red-senpai {\n    background-color: red;\n    -webkit-clip-path: polygon(50% 0, 0 100%, 100% 100%);\n            clip-path: polygon(50% 0, 0 100%, 100% 100%);\n    transform: rotateZ(180deg);\n  }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLWJvYXJkL2dhbWUtYm9hcmQuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLHVCQUF1QjtJQUN2QiwrQkFBK0I7RUFDakM7O0VBRUE7SUFDRSxZQUFZO0lBQ1osV0FBVztJQUNYLFVBQVU7SUFDVix5QkFBeUI7RUFDM0I7O0VBQ0E7SUFDRSxxQkFBcUI7SUFDckIsV0FBVztFQUNiOztFQUNBO0lBQ0UscUJBQXFCO0lBQ3JCLFdBQVc7SUFDWCwwQkFBMEI7RUFDNUI7O0VBRUE7SUFDRSxnQ0FBZ0M7RUFDbEM7O0VBRUE7SUFDRSw0QkFBNEI7RUFDOUI7O0VBRUE7SUFDRSw0QkFBNEI7RUFDOUI7O0VBRUE7SUFDRSwyQkFBMkI7RUFDN0I7O0VBRUE7SUFDRSx3QkFBd0I7RUFDMUI7O0VBRUE7SUFDRSxZQUFZO0lBQ1osV0FBVztJQUNYLHFCQUFxQjtJQUNyQixZQUFZO0lBQ1osa0JBQWtCO0lBQ2xCLHFCQUFxQjtFQUN2Qjs7RUFFQTtJQUNFLFlBQVk7SUFDWixXQUFXO0lBQ1gsc0JBQXNCO0lBQ3RCLFlBQVk7SUFDWixrQkFBa0I7SUFDbEIscUJBQXFCO0VBQ3ZCOztFQUVBO0lBQ0Usc0JBQXNCO0lBQ3RCLG9EQUE0QztZQUE1Qyw0Q0FBNEM7RUFDOUM7O0VBRUE7SUFDRSxxQkFBcUI7SUFDckIsb0RBQTRDO1lBQTVDLDRDQUE0QztJQUM1QywwQkFBMEI7RUFDNUIiLCJmaWxlIjoic3JjL2FwcC9nYW1lL2dhbWUtYm9hcmQvZ2FtZS1ib2FyZC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsidGFibGUsIHRyLCB0ZCB7XG4gICAgYm9yZGVyOiAxcHggc29saWQgYmxhY2s7XG4gICAgLyogYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsgKi9cbiAgfVxuXG4gIHRkIHtcbiAgICBwYWRkaW5nOiAxdmg7XG4gICAgaGVpZ2h0OiA1dnc7XG4gICAgd2lkdGg6IDV2dztcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjYzhkNWJmO1xuICB9XG4gIC5ib2FyZCB7XG4gICAgZGlzcGxheTogaW5saW5lLXRhYmxlO1xuICAgIGZsb2F0OiBsZWZ0O1xuICB9XG4gIC5ib2FyZC1yb3RhdGVkIHtcbiAgICBkaXNwbGF5OiBpbmxpbmUtdGFibGU7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgdHJhbnNmb3JtOiByb3RhdGVaKDE4MGRlZyk7XG4gIH1cblxuICAudGlsZS1ibHVlLXRocm9uZSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogY29ybmZsb3dlcmJsdWU7XG4gIH1cblxuICAudGlsZS1yZWQtdGhyb25lIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiBsaWdodGNvcmFsO1xuICB9XG5cbiAgLnRpbGUtc2VsZWN0ZWQge1xuICAgIGJhY2tncm91bmQtY29sb3I6IGJsdWV2aW9sZXQ7XG4gIH1cblxuICAudGlsZS1vcHRpb24ge1xuICAgIGJhY2tncm91bmQtY29sb3I6IHBlYWNocHVmZjtcbiAgfVxuXG4gIC50aWxlLWRlc3RpbmF0aW9uIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiBvcmFuZ2U7XG4gIH1cblxuICAucmVkLWRvdCB7XG4gICAgaGVpZ2h0OiAxMDAlO1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJlZDtcbiAgICBjb2xvcjogd2hpdGU7XG4gICAgYm9yZGVyLXJhZGl1czogNTAlO1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgfVxuXG4gIC5ibHVlLWRvdCB7XG4gICAgaGVpZ2h0OiAxMDAlO1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIGJhY2tncm91bmQtY29sb3I6IGJsdWU7XG4gICAgY29sb3I6IHdoaXRlO1xuICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIH1cblxuICAuYmx1ZS1zZW5wYWkge1xuICAgIGJhY2tncm91bmQtY29sb3I6IGJsdWU7XG4gICAgY2xpcC1wYXRoOiBwb2x5Z29uKDUwJSAwLCAwIDEwMCUsIDEwMCUgMTAwJSk7XG4gIH1cblxuICAucmVkLXNlbnBhaSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmVkO1xuICAgIGNsaXAtcGF0aDogcG9seWdvbig1MCUgMCwgMCAxMDAlLCAxMDAlIDEwMCUpO1xuICAgIHRyYW5zZm9ybTogcm90YXRlWigxODBkZWcpO1xuICB9XG4iXX0= */";
+    __webpack_exports__["default"] = "table, tr, td {\n    /* border: 1px solid black; */\n    /* border-collapse: collapse; */\n    padding: 1vh;\n  }\n\n  td {\n    padding: 1vh;\n    height: 5vw;\n    width: 5vw;\n    background-color: #c8d5bf;\n  }\n\n  .board {\n    display: inline-table;\n    float: left;\n  }\n\n  .board-rotated {\n    display: inline-table;\n    /* float: left; */\n    transform: rotateZ(180deg);\n  }\n\n  .tile-blue-throne {\n    background-color: cornflowerblue;\n  }\n\n  .tile-red-throne {\n    background-color: lightcoral;\n  }\n\n  .tile-selected {\n    background-color: blueviolet;\n  }\n\n  .tile-option {\n    background-color: peachpuff;\n  }\n\n  .tile-destination {\n    background-color: orange;\n  }\n\n  .red-dot {\n    height: 100%;\n    width: 100%;\n    background-color: red;\n    color: white;\n    border-radius: 50%;\n    display: inline-block;\n  }\n\n  .blue-dot {\n    height: 100%;\n    width: 100%;\n    background-color: blue;\n    color: white;\n    border-radius: 50%;\n    display: inline-block;\n  }\n\n  .blue-senpai {\n    background-color: blue;\n    -webkit-clip-path: polygon(50% 0, 0 100%, 100% 100%);\n            clip-path: polygon(50% 0, 0 100%, 100% 100%);\n  }\n\n  .red-senpai {\n    background-color: red;\n    -webkit-clip-path: polygon(50% 0, 0 100%, 100% 100%);\n            clip-path: polygon(50% 0, 0 100%, 100% 100%);\n    transform: rotateZ(180deg);\n  }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLWJvYXJkL2dhbWUtYm9hcmQuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLDZCQUE2QjtJQUM3QiwrQkFBK0I7SUFDL0IsWUFBWTtFQUNkOztFQUVBO0lBQ0UsWUFBWTtJQUNaLFdBQVc7SUFDWCxVQUFVO0lBQ1YseUJBQXlCO0VBQzNCOztFQUNBO0lBQ0UscUJBQXFCO0lBQ3JCLFdBQVc7RUFDYjs7RUFDQTtJQUNFLHFCQUFxQjtJQUNyQixpQkFBaUI7SUFDakIsMEJBQTBCO0VBQzVCOztFQUVBO0lBQ0UsZ0NBQWdDO0VBQ2xDOztFQUVBO0lBQ0UsNEJBQTRCO0VBQzlCOztFQUVBO0lBQ0UsNEJBQTRCO0VBQzlCOztFQUVBO0lBQ0UsMkJBQTJCO0VBQzdCOztFQUVBO0lBQ0Usd0JBQXdCO0VBQzFCOztFQUVBO0lBQ0UsWUFBWTtJQUNaLFdBQVc7SUFDWCxxQkFBcUI7SUFDckIsWUFBWTtJQUNaLGtCQUFrQjtJQUNsQixxQkFBcUI7RUFDdkI7O0VBRUE7SUFDRSxZQUFZO0lBQ1osV0FBVztJQUNYLHNCQUFzQjtJQUN0QixZQUFZO0lBQ1osa0JBQWtCO0lBQ2xCLHFCQUFxQjtFQUN2Qjs7RUFFQTtJQUNFLHNCQUFzQjtJQUN0QixvREFBNEM7WUFBNUMsNENBQTRDO0VBQzlDOztFQUVBO0lBQ0UscUJBQXFCO0lBQ3JCLG9EQUE0QztZQUE1Qyw0Q0FBNEM7SUFDNUMsMEJBQTBCO0VBQzVCIiwiZmlsZSI6InNyYy9hcHAvZ2FtZS9nYW1lLWJvYXJkL2dhbWUtYm9hcmQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbInRhYmxlLCB0ciwgdGQge1xuICAgIC8qIGJvcmRlcjogMXB4IHNvbGlkIGJsYWNrOyAqL1xuICAgIC8qIGJvcmRlci1jb2xsYXBzZTogY29sbGFwc2U7ICovXG4gICAgcGFkZGluZzogMXZoO1xuICB9XG5cbiAgdGQge1xuICAgIHBhZGRpbmc6IDF2aDtcbiAgICBoZWlnaHQ6IDV2dztcbiAgICB3aWR0aDogNXZ3O1xuICAgIGJhY2tncm91bmQtY29sb3I6ICNjOGQ1YmY7XG4gIH1cbiAgLmJvYXJkIHtcbiAgICBkaXNwbGF5OiBpbmxpbmUtdGFibGU7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gIH1cbiAgLmJvYXJkLXJvdGF0ZWQge1xuICAgIGRpc3BsYXk6IGlubGluZS10YWJsZTtcbiAgICAvKiBmbG9hdDogbGVmdDsgKi9cbiAgICB0cmFuc2Zvcm06IHJvdGF0ZVooMTgwZGVnKTtcbiAgfVxuXG4gIC50aWxlLWJsdWUtdGhyb25lIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiBjb3JuZmxvd2VyYmx1ZTtcbiAgfVxuXG4gIC50aWxlLXJlZC10aHJvbmUge1xuICAgIGJhY2tncm91bmQtY29sb3I6IGxpZ2h0Y29yYWw7XG4gIH1cblxuICAudGlsZS1zZWxlY3RlZCB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogYmx1ZXZpb2xldDtcbiAgfVxuXG4gIC50aWxlLW9wdGlvbiB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcGVhY2hwdWZmO1xuICB9XG5cbiAgLnRpbGUtZGVzdGluYXRpb24ge1xuICAgIGJhY2tncm91bmQtY29sb3I6IG9yYW5nZTtcbiAgfVxuXG4gIC5yZWQtZG90IHtcbiAgICBoZWlnaHQ6IDEwMCU7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmVkO1xuICAgIGNvbG9yOiB3aGl0ZTtcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgLmJsdWUtZG90IHtcbiAgICBoZWlnaHQ6IDEwMCU7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogYmx1ZTtcbiAgICBjb2xvcjogd2hpdGU7XG4gICAgYm9yZGVyLXJhZGl1czogNTAlO1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgfVxuXG4gIC5ibHVlLXNlbnBhaSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogYmx1ZTtcbiAgICBjbGlwLXBhdGg6IHBvbHlnb24oNTAlIDAsIDAgMTAwJSwgMTAwJSAxMDAlKTtcbiAgfVxuXG4gIC5yZWQtc2VucGFpIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZWQ7XG4gICAgY2xpcC1wYXRoOiBwb2x5Z29uKDUwJSAwLCAwIDEwMCUsIDEwMCUgMTAwJSk7XG4gICAgdHJhbnNmb3JtOiByb3RhdGVaKDE4MGRlZyk7XG4gIH1cbiJdfQ== */";
     /***/
   },
 
@@ -1647,28 +1653,54 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _service_games_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! ../../service/games.service */
     "./src/app/service/games.service.ts");
+    /* harmony import */
 
-    var GameLobbyComponent = function GameLobbyComponent(gamesService) {
-      var _this2 = this;
 
-      _classCallCheck(this, GameLobbyComponent);
+    var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! @angular/router */
+    "./node_modules/@angular/router/fesm2015/router.js");
 
-      this.gamesService = gamesService; // this.games = db.collection('games').snapshotChanges();
+    var GameLobbyComponent =
+    /*#__PURE__*/
+    function () {
+      function GameLobbyComponent(gamesService, router) {
+        var _this2 = this;
 
-      this.gamesService.getGames().subscribe(function (data) {
-        _this2.games = data.map(function (e) {
-          // console.log(e.payload.doc.id)
-          return {
-            id: e.payload.doc.id,
-            game: e.payload.doc.data()
-          };
+        _classCallCheck(this, GameLobbyComponent);
+
+        this.gamesService = gamesService;
+        this.router = router; // this.games = db.collection('games').snapshotChanges();
+
+        this.gamesService.getGames().subscribe(function (data) {
+          _this2.games = data.map(function (e) {
+            // console.log(e.payload.doc.id)
+            return {
+              id: e.payload.doc.id,
+              game: e.payload.doc.data()
+            };
+          });
         });
-      });
-    };
+      }
+
+      _createClass(GameLobbyComponent, [{
+        key: "createNewGame",
+        value: function createNewGame() {
+          var _this3 = this;
+
+          this.gamesService.createGame().subscribe(function (data) {
+            _this3.router.navigateByUrl("/game/".concat(data.gameId));
+          });
+        }
+      }]);
+
+      return GameLobbyComponent;
+    }();
 
     GameLobbyComponent.ctorParameters = function () {
       return [{
         type: _service_games_service__WEBPACK_IMPORTED_MODULE_2__["GamesService"]
+      }, {
+        type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]
       }];
     };
 
@@ -1859,7 +1891,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2dhbWUvZ2FtZS12aWV3L2dhbWUtdmlldy5jb21wb25lbnQuY3NzIn0= */";
+    __webpack_exports__["default"] = ".selected {\n    color: purple;\n    font-size: x-large;\n}\n\n.rotated {\n    transform: rotateZ(180deg);\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZ2FtZS9nYW1lLXZpZXcvZ2FtZS12aWV3LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxhQUFhO0lBQ2Isa0JBQWtCO0FBQ3RCOztBQUVBO0lBQ0ksMEJBQTBCO0FBQzlCIiwiZmlsZSI6InNyYy9hcHAvZ2FtZS9nYW1lLXZpZXcvZ2FtZS12aWV3LmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2VsZWN0ZWQge1xuICAgIGNvbG9yOiBwdXJwbGU7XG4gICAgZm9udC1zaXplOiB4LWxhcmdlO1xufVxuXG4ucm90YXRlZCB7XG4gICAgdHJhbnNmb3JtOiByb3RhdGVaKDE4MGRlZyk7XG59Il19 */";
     /***/
   },
 
@@ -1933,12 +1965,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(GameViewComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this3 = this;
+          var _this4 = this;
 
           this.gameId = this.route.snapshot.paramMap.get('gameId');
           this.gameObs = this.gamesService.getGame(this.gameId);
           this.gameObs.subscribe(function (res) {
-            _this3.game = res;
+            _this4.game = res;
           });
           this.selectedCard = undefined;
           this.selectedPiece = undefined;
@@ -1972,8 +2004,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }, {
         key: "updateSelectedCard",
-        value: function updateSelectedCard(event) {
-          this.selectedCard = event;
+        value: function updateSelectedCard(color, event) {
+          if (this.getPlayer() === color) {
+            this.selectedCard = event;
+          }
         }
       }, {
         key: "updateSelectedPiece",
@@ -2246,17 +2280,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/common/http */
+    "./node_modules/@angular/common/fesm2015/http.js");
+    /* harmony import */
+
+
+    var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! @angular/fire/firestore */
     "./node_modules/@angular/fire/firestore/es2015/index.js");
+    /* harmony import */
+
+
+    var _auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! ./auth.service */
+    "./src/app/service/auth.service.ts");
 
     var GamesService =
     /*#__PURE__*/
     function () {
-      function GamesService(firestore) {
+      function GamesService(http, firestore, authService) {
         _classCallCheck(this, GamesService);
 
+        this.http = http;
         this.firestore = firestore;
+        this.authService = authService;
+        this.createUrl = "https://us-central1-shinderu-707e1.cloudfunctions.net/createNewGame";
       }
 
       _createClass(GamesService, [{
@@ -2276,6 +2325,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function updatePlayerMove(move, gameId) {
           this.firestore.doc('games/' + gameId + '/player_moves/' + move.uid).update(Object.assign({}, move));
         }
+      }, {
+        key: "createGame",
+        value: function createGame() {
+          console.log(this.authService.getUserUid());
+          return this.http.post(this.createUrl, {
+            "id": this.authService.getUserUid()
+          });
+        }
       }]);
 
       return GamesService;
@@ -2283,7 +2340,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     GamesService.ctorParameters = function () {
       return [{
-        type: _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_2__["AngularFirestore"]
+        type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]
+      }, {
+        type: _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__["AngularFirestore"]
+      }, {
+        type: _auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]
       }];
     };
 
@@ -2309,7 +2370,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = ".left-nav {\n    float: left;\n    border-right: black;\n    border-style: dotted;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvc2lkZWJhci9zaWRlYmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsbUJBQW1CO0lBQ25CLG9CQUFvQjtBQUN4QiIsImZpbGUiOiJzcmMvYXBwL3NpZGViYXIvc2lkZWJhci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmxlZnQtbmF2IHtcbiAgICBmbG9hdDogbGVmdDtcbiAgICBib3JkZXItcmlnaHQ6IGJsYWNrO1xuICAgIGJvcmRlci1zdHlsZTogZG90dGVkO1xufSJdfQ== */";
+    __webpack_exports__["default"] = ".left-nav {\n    /* float: left; */\n    border-right: black;\n    border-style: dotted;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvc2lkZWJhci9zaWRlYmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxpQkFBaUI7SUFDakIsbUJBQW1CO0lBQ25CLG9CQUFvQjtBQUN4QiIsImZpbGUiOiJzcmMvYXBwL3NpZGViYXIvc2lkZWJhci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmxlZnQtbmF2IHtcbiAgICAvKiBmbG9hdDogbGVmdDsgKi9cbiAgICBib3JkZXItcmlnaHQ6IGJsYWNrO1xuICAgIGJvcmRlci1zdHlsZTogZG90dGVkO1xufSJdfQ== */";
     /***/
   },
 

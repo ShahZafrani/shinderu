@@ -1,5 +1,6 @@
 <div>
     <h3>do I even need this page? Matchmaking seems like a higher priority</h3>
+    <button (click)="createNewGame()">Create New Game</button>
     <div *ngFor="let game of games">
         <a routerLink="{{'/game/' + game.id}}" routerLinkActive="active">{{game.id}}</a>
     </div>
